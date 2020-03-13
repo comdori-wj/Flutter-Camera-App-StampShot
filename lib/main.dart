@@ -146,10 +146,25 @@ class DisplayPictureScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Display the Picture')),
+      appBar: AppBar(title: Text('사진 미리보기 화면')),
       // 이미지는 디바이스에 파일로 저장됩니다. 이미지를 보여주기 위해 주어진
       // 경로로 `Image.file`을 생성하세요.
-      body: Image.file(File(imagePath)),
+
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Container(child: Image.file(File(imagePath)),),
+            Container(child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children:[RaisedButton(onPressed: () {}, child: Text('Save'),),
+              RaisedButton(onPressed: () {}, child: Text('Back'),),]),),
+           // Container(width:100,child: RaisedButton(onPressed: () {}, child: Text('back'),))
+          ]
+        )
+       /*child: Image.file(File(imagePath)),
+        child: FlatButton(onPressed: () {},child: Text('Save'),))
+       ,
+      */
+
+      )
     );
   }
 }

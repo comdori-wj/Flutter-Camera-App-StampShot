@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:camera/camera.dart';
+
+import 'package:camera_test/screens/Previewscreen.dart';
 import 'package:flutter/material.dart';
+
+import 'package:camera/camera.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
+
 
 Future<void> main() async {
 
@@ -55,7 +59,7 @@ class TakePictureScreenState extends State<MyAPP> {
       // 이용 가능한 카메라 목록에서 특정 카메라를 가져옵니다.
       widget.camera,
       // 적용할 해상도를 지정합니다.
-      ResolutionPreset.medium,
+      ResolutionPreset.ultraHigh, // 카메라 화질 설정 ultraHigh, high, max
     );
 
     // 다음으로 controller를 초기화합니다. 초기화 메서드는 Future를 반환합니다.
@@ -81,7 +85,7 @@ class TakePictureScreenState extends State<MyAPP> {
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            ListTile(title: Text("사이드메뉴", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),)
+            ListTile(title: Text("사이드메뉴1", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),)
           ],
         ),
       ),
@@ -119,12 +123,13 @@ class TakePictureScreenState extends State<MyAPP> {
 
             // 사진 촬영을 시도하고 저장되는 경로를 로그로 남깁니다.
             await _controller.takePicture(path);
+                  print('저장위치는:'+path);
 
             // 사진을 촬영하면, 새로운 화면으로 넘어갑니다.
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DisplayPictureScreen(imagePath: path),
+                builder: (context) => Previewscreen(imagePath: path),
               ),
             );
           } catch (e) {
@@ -137,34 +142,4 @@ class TakePictureScreenState extends State<MyAPP> {
   }
 }
 
-// 사용자가 촬영한 사진을 보여주는 위젯
-class DisplayPictureScreen extends StatelessWidget {
-  final String imagePath;
 
-  const DisplayPictureScreen({Key key, this.imagePath}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('사진 미리보기 화면')),
-      // 이미지는 디바이스에 파일로 저장됩니다. 이미지를 보여주기 위해 주어진
-      // 경로로 `Image.file`을 생성하세요.
-
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Container(child: Image.file(File(imagePath)),),
-            Container(child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children:[RaisedButton(onPressed: () {}, child: Text('Save'),),
-              RaisedButton(onPressed: () {}, child: Text('Back'),),]),),
-           // Container(width:100,child: RaisedButton(onPressed: () {}, child: Text('back'),))
-          ]
-        )
-       /*child: Image.file(File(imagePath)),
-        child: FlatButton(onPressed: () {},child: Text('Save'),))
-       ,
-      */
-
-      )
-    );
-  }
-}

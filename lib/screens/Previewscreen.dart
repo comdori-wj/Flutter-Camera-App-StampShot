@@ -64,8 +64,7 @@ void _takeshot2() async{
   print("save imge ${cambox.path}");
 }
   void _takeshot() async {
-    print("START CAPTURE");
-    var renderObject = global.currentContext.findRenderObject();
+     var renderObject = global.currentContext.findRenderObject();
     if (renderObject is RenderRepaintBoundary) {
       var boundary = renderObject;
       ui.Image image = await boundary.toImage();
@@ -75,9 +74,10 @@ void _takeshot2() async{
       Uint8List pngBytes = byteData.buffer.asUint8List();
       File imgFile = new File('${cambox.path}/${DateTime.now()}-cambox.png');
       imgFile.writeAsBytes(pngBytes);
-      print("FINISH CAPTURE ${cambox.path}");
+      print("캡쳐 완료 ${cambox.path}");
     } else {
-      print("!");
+      NullThrownError e;
+      print(e);
     }
   }
 }

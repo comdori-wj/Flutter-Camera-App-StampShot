@@ -78,7 +78,7 @@ class TakePictureScreenState extends State<MyAPP> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.cyan,
-          title: Text("카메라 테스트", style: TextStyle(color: Colors.white),),
+          title: Text("카메라", style: TextStyle(color: Colors.white),),
       elevation: 0, centerTitle: true, iconTheme: IconThemeData(
         color: Colors.amber
       ),),

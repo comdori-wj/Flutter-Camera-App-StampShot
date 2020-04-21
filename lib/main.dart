@@ -78,15 +78,20 @@ class TakePictureScreenState extends State<MyAPP> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.cyan,
-          title: Text("카메라", style: TextStyle(color: Colors.white),),
+          title: Text("StampShot", style: TextStyle(color: Colors.white),),
       elevation: 0, centerTitle: true, iconTheme: IconThemeData(
         color: Colors.amber
       ),),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            ListTile(title: Text("사이드메뉴1", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),)
+            ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),),
+            ListTile(title: Text("워터마크 위치 지정하기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),),
+            ListTile(title: Text("만든이 정보보기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),)
+
+
           ],
+
         ),
       ),
       // 카메라 프리뷰를 보여주기 전에 컨트롤러 초기화를 기다려야 합니다. 컨트롤러 초기화가
@@ -117,8 +122,8 @@ class TakePictureScreenState extends State<MyAPP> {
             final path = join(
               // 본 예제에서는 임시 디렉토리에 이미지를 저장합니다. `path_provider`
               // 플러그인을 사용하여 임시 디렉토리를 찾으세요.
-              (await getTemporaryDirectory()).path,
-              '${DateTime.now()}.png',
+              (await getTemporaryDirectory()).path, //getTemporaryDirectory (임시저장) etExternalStorageDirectory)내장저
+              '${DateTime.now()}.jpeg',
             );
 
             // 사진 촬영을 시도하고 저장되는 경로를 로그로 남깁니다.

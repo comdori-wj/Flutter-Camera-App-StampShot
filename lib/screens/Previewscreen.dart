@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:ui' as ui;
 import 'dart:async';
 import 'dart:typed_data';
+import 'dart:wasm';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path/path.dart' show join;
@@ -19,63 +21,99 @@ class Previewscreen extends StatelessWidget {
 
   String imagePath;
   GlobalKey global = GlobalKey();
+  BuildContext ctx;
 
   Previewscreen({Key key, this.imagePath}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-        key: global,
+    ctx = context;
 
-       child: Scaffold(
-        appBar: AppBar(title: Text('사진 미리보기 화면')),
-        // 이미지는 디바이스에 파일로 저장됩니다. 이미지를 보여주기 위해 주어진
-        // 경로로 `Image.file`을 생성하세요.
 
-        body: Center(
+    return Scaffold(
+      appBar: AppBar(title: Text('사진 미리보기 화면')),
+      // 이미지는 디바이스에 파일로 저장됩니다. 이미지를 보여주기 위해 주어진
+      // 경로로 `Image.file`을 생성하세요.
 
-            child: Column(
-                children: <Widget>[
-                  Container(width: 399.9, child: Image.file(File(imagePath)),),
-                  Container(child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [RaisedButton(onPressed: _takeshot,
+      body: Center(
+
+        child: Column(
+            children: <Widget>[
+
+              Container(),
+              RepaintBoundary(
+                  key: global,
+                  child: new Stack(children: <Widget>[
+                    Container(width: 400,child: Image.file(File(imagePath)),), //사진
+                    Positioned(child: Image.asset(
+                        'assets/images/kakao.jpg', width: 100),
+                      right: 3,
+                      height: 1330,), //스탬프 위치
+                  ],)),
+
+              // Container(width: 399.9, child: Image.file(File(imagePath)),  ),
+              //CircleAvatar(radius: 50.0, backgroundColor: Colors.<em>red</em>,),
+
+              Container(child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    RaisedButton(onPressed: _takeshot,
                       child: Text('사진저장'),),
-                        RaisedButton(onPressed: _takeshot2, child: Text('Back'),),
-                      ]),),
-                  // Container(width:100,child: RaisedButton(onPressed: () {}, child: Text('back'),))
-                ]
-            ),
-
+                    RaisedButton(onPressed: _takeshot2, child: Text('Back'),),
+                  ]),),
+              // Container(width:100,child: RaisedButton(onPressed: () {}, child: Text('back'),))
+            ]
         ),
-    ),
+      ),
     );
+
 
   }
 
 
+  void showMsg(String msg) {
+    final snackbar = SnackBar(content: Text(msg));
+    Scaffold.of(ctx).showSnackBar(snackbar);
+  }
 
-void _takeshot2() async{
-  final directory = await getExternalStorageDirectory();
- var cambox = await new Directory('${directory.path}/cambox').create(recursive: false);
-  File img = new File('${cambox.path}/s.png');
+
+  void _takeshot2() async {
+    final directory = await getExternalStorageDirectory();
+    var cambox = await new Directory('${directory.path}/cambox').create(
+        recursive: false);
+    File img = new File('${cambox.path}/s.png');
+    /*ByteData byteData = await imagePath.toByteData(format: ui.ImageByteFormat.png);
+  Uint8List pngBytes = byteData.buffer.asUint8List();
   List<int> pg = utf8.encode(imagePath);
   img.writeAsBytes(pg);
-  print("save imge ${cambox.path}");
-}
+  print("save imge ${cambox.path}");*/
+  }
+
   void _takeshot() async {
-     var renderObject = global.currentContext.findRenderObject();
+    /*var renderObject = global.currentContext.findRenderObject();
     if (renderObject is RenderRepaintBoundary) {
-      var boundary = renderObject;
+      var boundary = renderObject;*/ //이걸써도 되고 아니면 아래 구문을 써도 좋다.
+
+    try {
+      RenderRepaintBoundary boundary = global.currentContext.findRenderObject();
       ui.Image image = await boundary.toImage();
       final directory = await getExternalStorageDirectory();
-      var cambox = await new Directory('${directory.path}/cambox').create(recursive: false);
+      var cambox = await new Directory('${directory.path}/cambox').create(
+          recursive: false);
       ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
       File imgFile = new File('${cambox.path}/${DateTime.now()}-cambox.png');
       imgFile.writeAsBytes(pngBytes);
       print("캡쳐 완료 ${cambox.path}");
-    } else {
+    }
+    catch (e) {
+      print(e);
+    }
+  }
+}
+
+
+/*else {
       NullThrownError e;
       print(e);
     }
@@ -83,7 +121,7 @@ void _takeshot2() async{
 }
 
 
-
+*/
 
 
 /*void _takePhoto() async {
@@ -101,4 +139,6 @@ void _takeshot2() async{
       });
     }
   });
-}*/
+}
+
+ */

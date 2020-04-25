@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 
@@ -11,6 +12,8 @@ import 'package:path_provider/path_provider.dart';
 
 
 Future<void> main() async {
+
+
 
   // runApp 을 호출하기 전에 바인딩을 초기화해야하는 경우에만이 메소드를 호출 하면 됩니다.
   // https://api.flutter.dev/flutter/widgets/WidgetsFlutterBinding/ensureInitialized.html
@@ -36,6 +39,7 @@ Future<void> main() async {
 
 // 사용자가 주어진 카메라를 사용하여 사진을 찍을 수 있는 화면
 class MyAPP extends StatefulWidget {
+
   final CameraDescription camera;
 
   const MyAPP({
@@ -48,6 +52,9 @@ class MyAPP extends StatefulWidget {
 }
 
 class TakePictureScreenState extends State<MyAPP> {
+
+  _preview(BuildContext context) => Navigator.push(context, MaterialPageRoute(builder: (context) => Previewscreen()));
+
   CameraController _controller;
   Future<void> _initializeControllerFuture;
 
@@ -85,9 +92,9 @@ class TakePictureScreenState extends State<MyAPP> {
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),),
-            ListTile(title: Text("워터마크 위치 지정하기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),),
-            ListTile(title: Text("만든이 정보보기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),)
+            ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),onTap: (){},),
+            ListTile(title: Text("워터마크 위치 지정하기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),onTap: () {},),
+            FlatButton(child: Text("만든이 정보보기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),), onPressed: () => _preview(null),)
 
 
           ],
@@ -109,7 +116,7 @@ class TakePictureScreenState extends State<MyAPP> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera_alt),
+        child: Icon(Icons.camera),
         // onPressed 콜백을 제공합니다.
         onPressed: () async {
           // try / catch 블럭에서 사진을 촬영합니다. 만약 뭔가 잘못된다면 에러에
@@ -131,10 +138,8 @@ class TakePictureScreenState extends State<MyAPP> {
                   print('저장위치는:'+path);
 
             // 사진을 촬영하면, 새로운 화면으로 넘어갑니다.
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Previewscreen(imagePath: path),
+            Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) => Previewscreen(imagePath: path),
               ),
             );
           } catch (e) {

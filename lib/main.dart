@@ -4,12 +4,15 @@ import 'dart:io';
 
 
 import 'package:camera_test/screens/Previewscreen.dart';
+import 'package:camera_test/screens/info.dart';
+import 'package:camera_test/screens/stamp.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:camera/camera.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
-
+import 'package:flutter/services.dart';
 
 Future<void> main() async {
 
@@ -40,20 +43,22 @@ Future<void> main() async {
 // 사용자가 주어진 카메라를 사용하여 사진을 찍을 수 있는 화면
 class MyAPP extends StatefulWidget {
 
+  final stamp;
+
   final CameraDescription camera;
 
   const MyAPP({
     Key key,
-    @required this.camera,
+    @required this.camera, this.stamp
   }) : super(key: key);
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
+
 }
 
 class TakePictureScreenState extends State<MyAPP> {
 
-  _preview(BuildContext context) => Navigator.push(context, MaterialPageRoute(builder: (context) => Previewscreen()));
 
   CameraController _controller;
   Future<void> _initializeControllerFuture;
@@ -88,13 +93,17 @@ class TakePictureScreenState extends State<MyAPP> {
           title: Text("StampShot", style: TextStyle(color: Colors.white),),
       elevation: 0, centerTitle: true, iconTheme: IconThemeData(
         color: Colors.amber
-      ),),
+      ),
+          actions: <Widget>[
+      new IconButton(icon: new Icon(Icons.close), onPressed: () => SystemNavigator.pop()),],),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),onTap: (){},),
+            ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) =>MyHomePage()),),),
             ListTile(title: Text("워터마크 위치 지정하기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),onTap: () {},),
-            FlatButton(child: Text("만든이 정보보기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),), onPressed: () => _preview(null),)
+            FlatButton(child: Text("만든이 정보보기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),), onPressed: ()=> Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) =>info(),),),)
 
 
           ],

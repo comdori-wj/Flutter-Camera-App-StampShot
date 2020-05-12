@@ -3,11 +3,14 @@ import 'dart:ui' as ui;
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:wasm';
+
 import 'package:camera_test/main.dart';
+import 'package:camera_test/screens/stamp.dart';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:path/path.dart' show join;
+import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:album_saver/album_saver.dart';
@@ -16,17 +19,33 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 // 사용자가 촬영한 사진을 보여주는 위젯
 
 class Previewscreen extends StatelessWidget {
 
+
   //_Mainpage(BuildContext context) => Navigator.pop(null);  //메인페이지로 이동하는 클래스 push-새로운 화면, pop-이전 화면 복귀
-  String imagePath;
+  String imagePath, stamp;
+  File _image;
   GlobalKey global = GlobalKey();
   BuildContext ctx;
 
-  Previewscreen({Key key, this.imagePath}) : super(key: key);
+   _getImage() async{
+
+    final File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if(image == null){
+      _image = image;
+    }
+   else{
+     print('error');
+    }
+
+  }
+
+
+  Previewscreen({Key key, this.imagePath, this.stamp}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +65,14 @@ class Previewscreen extends StatelessWidget {
               RepaintBoundary(
                   key: global,
                   child: new Stack(children: <Widget>[
-                    Container(width: 400,child: Image.file(File(imagePath)),), //사진
-                    Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
+                    Container(width: 370.8,  child: Image.file(File(imagePath)),), //사진
+                    Positioned(child:
+                    _image == null
+                        ? new Image.asset('assets/images/kakao.jpg', width: 500)
+                        : new Image.file(_image), width: 100,  // Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
                       right: 3,
-                      height: 1330,), //스탬프 위치
+                      height: 100,
+                    ), //스탬프 위치
                   ],)),
 
               // Container(width: 399.9, child: Image.file(File(imagePath)),  ),
@@ -63,6 +86,7 @@ class Previewscreen extends StatelessWidget {
                     ),
                     RaisedButton(child: Text('Back'), onPressed: () { Navigator.pop(context); //뒤로가기
      }),
+                    RaisedButton(child: Text('stamp'), onPressed: _getImage)
                   ]),),
               // Container(width:100,child: RaisedButton(onPressed: () {}, child: Text('back'),))
             ]
@@ -73,7 +97,6 @@ class Previewscreen extends StatelessWidget {
     );
 
   }
-
 
 
 
@@ -114,6 +137,7 @@ class Previewscreen extends StatelessWidget {
           textColor: Colors.white,
           fontSize: 17.0);
       print("캡쳐 완료 ${stampshot.path}");
+
     }
     catch (e) {
       print(e);

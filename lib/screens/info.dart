@@ -26,9 +26,17 @@ class info extends StatelessWidget{
         actions: <Widget>[
           new IconButton(icon: new Icon(Icons.exit_to_app), onPressed: () => SystemNavigator.pop())
         ],),
-        body: Center(
-          child: Container(child: Text('만든이: 하원지'))
-          //child: Image.file(File(stamp), width: 500))
+        body: Container(
+          child: Card(
+    color: Colors.teal,
+    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Container(height: 50, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[Text("만든이: 하원지"),],),)
+    ],
+    ),
+
+          ),
+
+
 
         ),
       ),

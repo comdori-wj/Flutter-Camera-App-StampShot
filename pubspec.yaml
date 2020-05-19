@@ -26,9 +26,6 @@ dependencies:
   camera: ^0.5.7+3
   path_provider: ^1.5.1
   path: ^1.6.4
-  gallery_saver:
-  album_saver: ^0.0.2
-  image_gallery_saver: ^1.2.2
   fluttertoast: ^4.0.0
   image_picker: ^0.6.5+2
 

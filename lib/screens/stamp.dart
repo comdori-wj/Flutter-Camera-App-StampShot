@@ -5,11 +5,14 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:camera_test/screens/camera.dart';
 import 'package:camera_test/screens/Previewscreen.dart';
 import 'package:camera_test/screens/info.dart';
 import 'package:camera_test/screens/stamp.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
+
+import 'package:camera/camera.dart';
 
 /*class stamp extends StatelessWidget {
   @override
@@ -34,25 +37,23 @@ class _stamppage extends State<stamp> {
 
 
 
-class MyHomePage extends StatefulWidget {
+class Stamp extends StatefulWidget {
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _StampPageState createState() => new _StampPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  File _image;
-  String tempimg;
-
-
+class _StampPageState extends State<Stamp> {
+  File _image; //이미지 불러오는 변수
 
   Future getImage() async {
     final File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    {
-     // Directory tempdir = await getTemporaryDirectory();
-      //tempimg = path.join(tempdir.path, path.basename(image.path));
+
+
 
      // print('위치' + tempimg);
-      if (image == null) return;
+      if (image != null){
+        print('위치'+image.path);
+
       //final String path = await getApplicationDocumentsDirectory().path;
       setState(() {
         _image = image;
@@ -66,14 +67,23 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
     void _save() async {
+      WidgetsFlutterBinding.ensureInitialized();
+
+      final cameras = await availableCameras();  // 디바이스에서 이용가능한 카메라 목록을 받아옵니다.
+      final firstCamera = cameras.first; // 이용가능한 카메라 목록에서 특정 카메라를 얻습니다.
+
       final na = Navigator.of(context);
 
       // File pi = image;// await ImagePicker.pickImage(source: ImageSource.gallery);
 
 
         await na.push(MaterialPageRoute(
-            builder: (context) => Previewscreen(stamp: _image.path)));
-        print('true');
+            builder: (context) => Cam(
+                stamp2: _image,
+                camera: firstCamera,
+            )));
+        print('true:');
+
 
     }
 
@@ -83,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Image Picker Example'),actions: <Widget>[
+        title: new Text('★도장 사진을 불러오기★'),actions: <Widget>[
           new IconButton(icon: new Icon(Icons.save), onPressed: _save )],
       ),
       
@@ -92,8 +102,8 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Container(
               child: _image == null
-          ? new Text('스탬프로 찍을 이미지를 불러와주세요.')
-          : new Image.file(_image) ,width: 300, height: 200.0
+          ? new Text('스탬프로 찍을 이미지를 불러와주세요.', style: TextStyle(fontSize: 35, color: Colors.cyan),)
+          : new Image.file(_image) ,width: 380, height: 500.0
 
 
             )

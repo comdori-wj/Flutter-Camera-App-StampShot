@@ -1,16 +1,8 @@
-import 'dart:ffi';
 import 'dart:io';
-import 'package:camera_test/main.dart';
-import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:camera_test/screens/camera.dart';
-import 'package:camera_test/screens/Previewscreen.dart';
-import 'package:camera_test/screens/info.dart';
-import 'package:camera_test/screens/stamp.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
 
 import 'package:camera/camera.dart';
 
@@ -36,7 +28,6 @@ class _stamppage extends State<stamp> {
 }*/
 
 
-
 class Stamp extends StatefulWidget {
   @override
   _StampPageState createState() => new _StampPageState();
@@ -48,9 +39,6 @@ class _StampPageState extends State<Stamp> {
   Future getImage() async {
     final File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
-
-
-     // print('위치' + tempimg);
       if (image != null){
         print('위치'+image.path);
 
@@ -58,7 +46,6 @@ class _StampPageState extends State<Stamp> {
       setState(() {
         _image = image;
       });
-
 
       /* final na = Navigator.of(context);
       await na.push(MaterialPageRoute(
@@ -87,13 +74,11 @@ class _StampPageState extends State<Stamp> {
 
     }
 
-
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('★도장 사진을 불러오기★'),actions: <Widget>[
+        title: new Text('★도장 사진 불러오기★'),actions: <Widget>[
           new IconButton(icon: new Icon(Icons.save), onPressed: _save )],
       ),
       
@@ -104,7 +89,6 @@ class _StampPageState extends State<Stamp> {
               child: _image == null
           ? new Text('스탬프로 찍을 이미지를 불러와주세요.', style: TextStyle(fontSize: 35, color: Colors.cyan),)
           : new Image.file(_image) ,width: 380, height: 500.0
-
 
             )
           ],
@@ -119,4 +103,3 @@ class _StampPageState extends State<Stamp> {
     );
   }
 }
-

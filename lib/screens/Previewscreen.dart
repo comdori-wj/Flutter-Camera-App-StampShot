@@ -19,6 +19,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:ext_storage/ext_storage.dart';
 
 // 사용자가 촬영한 사진을 보여주는 위젯
 
@@ -98,7 +99,7 @@ class Previewscreen extends StatelessWidget {
                     ),
                     RaisedButton(child: Text('Back'), onPressed: () { Navigator.pop(context); //뒤로가기
      }),
-                    RaisedButton(child: Text('stamp'), onPressed: null)
+                    RaisedButton(child: Text('공유하기'), onPressed: null)
                   ]),),
               // Container(width:100,child: RaisedButton(onPressed: () {}, child: Text('back'),))
             ]
@@ -112,20 +113,6 @@ class Previewscreen extends StatelessWidget {
 
 
 
-
-
-  void _takeshot2() async {
-    final directory = await getExternalStorageDirectory();
-    var cambox = await new Directory('${directory.path}/StampShot').create(
-        recursive: false);
-    File img = new File('${cambox.path}/s.png');
-    /*ByteData byteData = await imagePath.toByteData(format: ui.ImageByteFormat.png);
-  Uint8List pngBytes = byteData.buffer.asUint8List();
-  List<int> pg = utf8.encode(imagePath);
-  img.writeAsBytes(pg);
-  print("save imge ${cambox.path}");*/
-  }
-
    void _takeshot() async {
     /*var renderObject = global.currentContext.findRenderObject();
     if (renderObject is RenderRepaintBoundary) {
@@ -134,15 +121,15 @@ class Previewscreen extends StatelessWidget {
     try {
       RenderRepaintBoundary boundary = global.currentContext.findRenderObject();
       ui.Image image = await boundary.toImage();
-      final directory = await getExternalStorageDirectory();
-      var stampshot = await new Directory('${directory.path}/StampShot').create(
+      var directory = await ExtStorage.getExternalStorageDirectory();
+      var stampshot = await new Directory('${directory}/StampShot').create(
           recursive: false);
       ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
       File imgFile = new File('${stampshot.path}/${DateTime.now()}-StampShot.png');
       imgFile.writeAsBytes(pngBytes);
       Fluttertoast.showToast(
-          msg: "사진은 갤러리 및 사진앱에서 확인하거나 \n ${directory.path}/StampShot서 확인가능 합니다.",
+          msg: "사진은 갤러리 및 사진앱에서 확인하거나 \n ${directory}/StampShot서 확인가능 합니다.",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.blueAccent,

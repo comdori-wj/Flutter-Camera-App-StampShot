@@ -12,18 +12,6 @@ import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 
-void camOpen(BuildContext context) async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // 디바이스에서 이용가능한 카메라 목록을 받아옵니다.
-  final cameras = await availableCameras();
-
-  // 이용가능한 카메라 목록에서 특정 카메라를 얻습니다.
-  final firstCamera = cameras[0];
-
-
-}
-
 // 사용자가 주어진 카메라를 사용하여 사진을 찍을 수 있는 화면
 class Cam extends StatefulWidget {
 

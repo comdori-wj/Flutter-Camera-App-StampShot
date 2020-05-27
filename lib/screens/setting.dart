@@ -57,7 +57,7 @@ class setting extends StatelessWidget {
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue, width: 3.0))),
                   textAlign: TextAlign.center, style: TextStyle(fontSize: 30, color: Colors.white),keyboardType: TextInputType.number,
                   ),
-                  TextField(decoration: InputDecoration(hintText: '이곳에 세로 사이즈 입력'),),
+                  TextField(decoration: InputDecoration(labelText: '세로 위치 입력', labelStyle: TextStyle(color: Colors.white)),),
                   RaisedButton(onPressed: () {}, color: Colors.lightGreenAccent, child: Text('Send'),),
                 ],
               )

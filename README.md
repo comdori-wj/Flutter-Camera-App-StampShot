@@ -1,16 +1,7 @@
 # camera_test
 
-A new Flutter application.
+이 앱은 StampShot 스탬프샷이라는 앱입니다.
+작동방식은 카메라로 사물을 촬영후 스택형식으로 레이어를 사진위에 붙이는 방식 입니다.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+##이 프로젝트를 같이 하고 싶은 분들은 02145s1@gamil.com  으로 문의를 주시면 답변 드리겠습니다.

@@ -1,11 +1,14 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
-import 'dart:io';
 
-import 'package:camera_test/screens/Previewscreen.dart';
-import 'package:camera_test/screens/info.dart';
-import 'package:camera_test/screens/stamp.dart';
-import 'package:image_picker/image_picker.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
+import 'dart:async';
+
+import 'package:StampShot/screens/Previewscreen.dart';
+import 'package:StampShot/screens/info.dart';
+import 'package:StampShot/screens/stamp.dart';
+import 'package:StampShot/screens/setting.dart';
 
 import 'package:camera/camera.dart';
 import 'package:path/path.dart' show join;
@@ -13,24 +16,23 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 
 // 사용자가 주어진 카메라를 사용하여 사진을 찍을 수 있는 화면
-class Cam extends StatefulWidget {
+class Camera extends StatefulWidget {
 
 
   final stamp2;
   final CameraDescription camera;
 
-  const Cam({ this.camera, this.stamp2});
+  const Camera({ this.camera, @required this.stamp2});
 
 
 
   @override
-  TakePictureScreenState createState() => TakePictureScreenState();
+  CameraState createState() => CameraState();
 
 
 }
 
-class TakePictureScreenState extends State<Cam> {
-
+class CameraState extends State<Camera> {
 
   CameraController _controller;
   
@@ -59,8 +61,9 @@ class TakePictureScreenState extends State<Cam> {
     // 위젯의 생명주기 종료시 컨트롤러 역시 해제시켜줍니다.
     _controller.dispose();
     super.dispose();
-  }
 
+  }
+var count = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,9 +80,10 @@ class TakePictureScreenState extends State<Cam> {
           children: <Widget>[
             FlatButton(child: Text("스탬프 사진 불러오기", style: TextStyle(fontSize: 30, color: Colors.deepOrangeAccent),),onPressed: () => Navigator.push(context,
               MaterialPageRoute(builder: (BuildContext context) =>Stamp()),),),
-            ListTile(title: Text("워터마크 위치 지정하기", style: TextStyle(fontSize: 20, color: Colors.deepOrangeAccent),),onTap: () {},),
+            ListTile(title: Text("워터마크 위치 지정하기", style: TextStyle(fontSize: 28, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
+                CupertinoPageRoute(builder: (BuildContext context) => setting(),),),),
             FlatButton(child: Text("만든이 정보보기", style: TextStyle(fontSize: 40, color: Colors.deepOrangeAccent),), onPressed: ()=> Navigator.push(context,
-              MaterialPageRoute(builder: (BuildContext context) =>info(),),),)
+              CupertinoPageRoute(builder: (BuildContext context) =>info(),),),)
 
 
           ],
@@ -101,8 +105,9 @@ class TakePictureScreenState extends State<Cam> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera),
+      floatingActionButton: CupertinoButton(
+        child: Icon(Icons.camera_alt),
+        color: Colors.brown,
         // onPressed 콜백을 제공합니다.
         onPressed: () async {
           // try / catch 블럭에서 사진을 촬영합니다. 만약 뭔가 잘못된다면 에러에
@@ -122,14 +127,17 @@ class TakePictureScreenState extends State<Cam> {
             // 사진 촬영을 시도하고 저장되는 경로를 로그로 남깁니다.
             await _controller.takePicture(path);
             print('저장위치는:'+path);
-
+            print(right_text.text);
            // File pickedImage = await ImagePicker.pickImage(source: ImageSource.gallery);
 
             //File Img = await stamp2.path;
             // 사진을 촬영하면, 새로운 화면으로 넘어갑니다.
               final aaa = Image.asset('assets/images/py.jpg', width: 30.0);
               Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Previewscreen(imagePath: path, stamp: widget.stamp2),
+              MaterialPageRoute(builder: (context) => Previewscreen(imagePath: path, stamp: widget.stamp2,
+                right: right_text.text == null
+                  ? null
+                  : double.parse(right_text.text),),
               ),
             );
           } catch (e) {
@@ -138,6 +146,7 @@ class TakePictureScreenState extends State<Cam> {
           }
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat, //플릇버튼의 위치를 지정
     );
   }
 }

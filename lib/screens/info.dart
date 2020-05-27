@@ -1,11 +1,13 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:camera_test/screens/Previewscreen.dart';
-import 'package:camera_test/screens/stamp.dart';
+import 'package:StampShot/screens/Previewscreen.dart';
+import 'package:StampShot/screens/stamp.dart';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class info extends StatelessWidget {

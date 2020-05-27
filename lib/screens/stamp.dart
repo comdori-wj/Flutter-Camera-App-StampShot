@@ -2,40 +2,20 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:camera_test/screens/camera.dart';
+import 'package:StampShot/screens/camera.dart';
 
 import 'package:camera/camera.dart';
 
-/*class stamp extends StatelessWidget {
-  @override
-  _stamppage createState() => _stamppage();
-}
-
-
-class _stamppage extends State<stamp> {
-  File mphoto;
-
-  @override
-  Widget build(BuildContext context) {
-    Widget photo = (mphoto != null) ? Image.file(mphoto) : Text('사진이 없음');
-    // TODO: implement build
-    return Container(
-
-    )
-  }
-
-
-}*/
-
-
-class Stamp extends StatefulWidget {
+class Stamp extends  StatefulWidget {
   @override
   _StampPageState createState() => new _StampPageState();
+
 }
 
-class _StampPageState extends State<Stamp> {
-  File _image; //이미지 불러오는 변수
 
+class _StampPageState extends State<Stamp> {
+
+  File _image; //이미지 불러오는 변수
   Future getImage() async {
     final File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -65,14 +45,16 @@ class _StampPageState extends State<Stamp> {
 
 
         await na.push(MaterialPageRoute(
-            builder: (context) => Cam(
-                stamp2: _image,
+            builder: (context) => Camera(
+                stamp2:     _image,
                 camera: firstCamera,
+
             )));
         print('true:');
 
 
     }
+
 
   @override
   Widget build(BuildContext context) {

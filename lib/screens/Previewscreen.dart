@@ -1,14 +1,15 @@
+import 'dart:ffi';
+
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'dart:async';
 import 'dart:typed_data';
 import 'dart:wasm';
 
-import 'package:camera_test/main.dart';
-import 'package:camera_test/screens/stamp.dart';
-
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:StampShot/screens/setting.dart';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,7 +33,10 @@ class Previewscreen extends StatelessWidget {
 
   GlobalKey global = GlobalKey();
   BuildContext ctx;
-    Previewscreen({Key key, this.imagePath, this.stamp}) : super(key: key);
+  final right;
+  double hei = 80 ;
+    Previewscreen({Key key, this.imagePath, @required this.stamp, this.right}) : super(key: key);
+
  // var fileContent = stamp.readAsBytesSync();
 //  var fileContentBase64 = base64.encode(stamp);
 
@@ -84,8 +88,10 @@ class Previewscreen extends StatelessWidget {
                     stamp == null
                         ? new Image.asset('assets/images/kakao.jpg', width: 500)
                         : new Image.file(stamp), width: 100,  // Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
-                      right: 3,
-                      height: 100,
+                      right: double.parse(right_text.text) == null
+                      ? -17
+                      : right,
+                        height: hei,
                     ), //스탬프 위치
                   ],)),
               // Container(width: 399.9, child: Image.file(File(imagePath)),  ),

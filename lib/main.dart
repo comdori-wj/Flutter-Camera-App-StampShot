@@ -1,5 +1,6 @@
-import 'package:camera_test/screens/stamp.dart';
+import 'package:StampShot/screens/stamp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 void main() =>
 

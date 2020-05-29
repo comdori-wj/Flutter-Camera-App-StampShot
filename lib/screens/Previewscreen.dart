@@ -34,8 +34,10 @@ class Previewscreen extends StatelessWidget {
   GlobalKey global = GlobalKey();
   BuildContext ctx;
   final right;
-  double hei = 80 ;
-    Previewscreen({Key key, this.imagePath, @required this.stamp, this.right}) : super(key: key);
+  final height;
+  double a = -17; // 스탬프 가로 위치
+  double b = 80; // 스탬프 세로 위
+    Previewscreen({Key key, this.imagePath, @required this.stamp, this.right, this.height} ) : super(key: key);
 
  // var fileContent = stamp.readAsBytesSync();
 //  var fileContentBase64 = base64.encode(stamp);
@@ -86,12 +88,14 @@ class Previewscreen extends StatelessWidget {
                     Positioned(child:
 
                     stamp == null
-                        ? new Image.asset('assets/images/kakao.jpg', width: 500)
+                        ? new Image.asset('assets/images/kakao.jpg')
                         : new Image.file(stamp), width: 100,  // Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
-                      right: double.parse(right_text.text) == null
-                      ? -17
-                      : right,
-                        height: hei,
+                      right: right == null
+                      ? a
+                      : double.parse(rig.text),
+                      height: height == null
+                      ? b
+                      : double.parse(hei.text),
                     ), //스탬프 위치
                   ],)),
               // Container(width: 399.9, child: Image.file(File(imagePath)),  ),

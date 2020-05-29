@@ -1,7 +1,3 @@
-import 'package:StampShot/screens/Previewscreen.dart';
-import 'package:StampShot/screens/camera.dart';
-import 'package:StampShot/screens/stamp.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -13,8 +9,9 @@ import 'package:flutter/src/rendering/box.dart';
 import 'package:flutter/src/rendering/object.dart';
 
 
-final right_text = TextEditingController();
-String ri;
+final rig = TextEditingController(); //가로 위치 입력 변수
+final hei = TextEditingController(); //세로 위치 입력 변수
+
 
 
 class setting extends StatelessWidget {
@@ -51,14 +48,16 @@ class setting extends StatelessWidget {
             child: Container(width: 30, height: 800,
               child:Column(
                 children: <Widget>[
-                  Text('스탬프 위치 지정', style: TextStyle(fontSize: 40),),
+                  Text('스탬프 위치 지정', style: TextStyle(fontSize: 35),),
 
-                  TextField(controller: right_text, decoration: InputDecoration(labelText: '가로 위치 입력(-17~285)', labelStyle: TextStyle(color: Colors.white),
+                  TextField(controller: rig, decoration: InputDecoration(labelText: '가로 위치 입력(-17~285)', labelStyle: TextStyle(color: Colors.white),
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue, width: 3.0))),
-                  textAlign: TextAlign.center, style: TextStyle(fontSize: 30, color: Colors.white),keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center, style: TextStyle(fontSize: 28.8, color: Colors.white),keyboardType: TextInputType.number,
                   ),
-                  TextField(decoration: InputDecoration(labelText: '세로 위치 입력', labelStyle: TextStyle(color: Colors.white)),),
-                  RaisedButton(onPressed: () {}, color: Colors.lightGreenAccent, child: Text('Send'),),
+                  TextField(controller: hei, decoration: InputDecoration(labelText: '세로 위치 입력()', labelStyle: TextStyle(color: Colors.white),
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blueAccent, width: 3.2))),
+                  textAlign: TextAlign.center, style: TextStyle(fontSize: 28.8, color: Colors.white),keyboardType: TextInputType.number,),
+                  RaisedButton(onPressed: () => { Navigator.of(context).pop(null) }, color: Colors.lightGreenAccent, child: Text('위치 지정 완료'),),
                 ],
               )
             ),

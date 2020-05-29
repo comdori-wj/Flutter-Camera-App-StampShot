@@ -127,17 +127,16 @@ var count = 0;
             // 사진 촬영을 시도하고 저장되는 경로를 로그로 남깁니다.
             await _controller.takePicture(path);
             print('저장위치는:'+path);
-            print(right_text.text);
+           
            // File pickedImage = await ImagePicker.pickImage(source: ImageSource.gallery);
 
             //File Img = await stamp2.path;
             // 사진을 촬영하면, 새로운 화면으로 넘어갑니다.
-              final aaa = Image.asset('assets/images/py.jpg', width: 30.0);
+             // final aaa = Image.asset('assets/images/py.jpg', width: 30.0);
               Navigator.push(context,
               MaterialPageRoute(builder: (context) => Previewscreen(imagePath: path, stamp: widget.stamp2,
-                right: right_text.text == null
-                  ? null
-                  : double.parse(right_text.text),),
+                right: rig.text,
+                height: hei.text),
               ),
             );
           } catch (e) {

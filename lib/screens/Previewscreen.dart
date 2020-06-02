@@ -1,13 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'dart:io';
 import 'dart:ui' as ui;
-import 'dart:async';
 import 'dart:typed_data';
-import 'dart:wasm';
 
 import 'package:StampShot/screens/setting.dart';
 
@@ -18,11 +14,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:ext_storage/ext_storage.dart';
-
-// 사용자가 촬영한 사진을 보여주는 위젯
 
 class Previewscreen extends StatelessWidget {
 
@@ -89,7 +82,7 @@ class Previewscreen extends StatelessWidget {
 
                     stamp == null
                         ? new Image.asset('assets/images/kakao.jpg')
-                        : new Image.file(stamp), width: 100,  // Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
+                        : new Image.file(stamp), width:  65.7,  // Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
                       right: right == null
                       ? a
                       : double.parse(rig.text),
@@ -130,7 +123,7 @@ class Previewscreen extends StatelessWidget {
 
     try {
       RenderRepaintBoundary boundary = global.currentContext.findRenderObject();
-      ui.Image image = await boundary.toImage();
+      ui.Image image = await boundary.toImage(pixelRatio: 7.0); //캡쳐 화질 설정 pixeratio
       var directory = await ExtStorage.getExternalStorageDirectory();
       var stampshot = await new Directory('${directory}/StampShot').create(
           recursive: false);
@@ -154,34 +147,3 @@ class Previewscreen extends StatelessWidget {
     }
   }
 }
-
-
-/*else {
-      NullThrownError e;
-      print(e);
-    }
-  }
-}
-
-
-*/
-
-
-/*void _takePhoto() async {
-  ImagePicker.pickImage(source: ImageSource.camera)
-      .then((File recordedImage) {
-    if (recordedImage != null && recordedImage.path != null) {
-      setState(() {
-        firstButtonText = 'saving in progress...';
-      });
-      GallerySaver.saveImage(recordedImage.path, albumName: albumName)
-          .then((bool success) {
-        setState(() {
-          firstButtonText = 'image saved!';
-        });
-      });
-    }
-  });
-}
-
- */

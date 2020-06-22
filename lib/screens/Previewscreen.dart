@@ -29,7 +29,7 @@ class Previewscreen extends StatelessWidget {
   final right;
   final height;
   double a = -17; // 스탬프 가로 위치
-  double b = 80; // 스탬프 세로 위
+  double b = 80; // 스탬프 세로 위치
     Previewscreen({Key key, this.imagePath, @required this.stamp, this.right, this.height} ) : super(key: key);
 
  // var fileContent = stamp.readAsBytesSync();
@@ -81,28 +81,34 @@ class Previewscreen extends StatelessWidget {
                     Positioned(child:
 
                     stamp == null
-                        ? new Image.asset('assets/images/kakao.jpg')
+                        ? new Image.asset('assets/images/goodjob.png')
+
+
                         : new Image.file(stamp), width:  65.7,  // Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
-                      right: right == null
+
+
+                      right: right == null //스탬프 가로 위치 좌
                       ? a
                       : double.parse(rig.text),
-                      height: height == null
+                      height: height == null // 스탬프 세로 위치 좌표
                       ? b
                       : double.parse(hei.text),
+
+
                     ), //스탬프 위치
                   ],)),
               // Container(width: 399.9, child: Image.file(File(imagePath)),  ),
               //CircleAvatar(radius: 50.0, backgroundColor: Colors.<em>red</em>,),
-
+              Container(height: 20),
               Container(child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     RaisedButton(onPressed: _takeshot,
                       child: Text('사진저장'),
                     ),
-                    RaisedButton(child: Text('Back'), onPressed: () { Navigator.pop(context); //뒤로가기
+                    RaisedButton(child: Text('다시 사진촬영'), onPressed: () { Navigator.pop(context); //뒤로가기
      }),
-                    RaisedButton(child: Text('공유하기'), onPressed: null)
+                   // RaisedButton(child: Text('공유하기'), onPressed: null)
                   ]),),
               // Container(width:100,child: RaisedButton(onPressed: () {}, child: Text('back'),))
             ]

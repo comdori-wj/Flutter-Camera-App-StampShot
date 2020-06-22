@@ -1,17 +1,25 @@
 import 'dart:io';
+import 'dart:async' show Future;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:StampShot/screens/camera.dart';
 
 import 'package:camera/camera.dart';
+import 'package:flutter/src/rendering/object.dart';
+
+import 'package:flutter/services.dart' show rootBundle;
+
+import 'package:path_provider/path_provider.dart';
+
+
 
 class Stamp extends  StatefulWidget {
   @override
   _StampPageState createState() => new _StampPageState();
 
 }
-
 
 class _StampPageState extends State<Stamp> {
 
@@ -33,27 +41,14 @@ class _StampPageState extends State<Stamp> {
     }
   }
 
-    void _save() async {
-      WidgetsFlutterBinding.ensureInitialized();
-
-      final cameras = await availableCameras();  // 디바이스에서 이용가능한 카메라 목록을 받아옵니다.
-      final firstCamera = cameras.first; // 이용가능한 카메라 목록에서 특정 카메라를 얻습니다.
-
-      final na = Navigator.of(context);
-
-      // File pi = image;// await ImagePicker.pickImage(source: ImageSource.gallery);
-
-
-        await na.push(MaterialPageRoute(
-            builder: (context) => Camera(
-                stamp2:     _image,
-                camera: firstCamera,
-
-            )));
-        print('true:');
-
-
-    }
+//  Future<File> getImageFileFromAssets(String path) async {
+//    final byteData = await rootBundle.load('assets/images/py.png');
+//
+//    final file = File('${(await getTemporaryDirectory()).path}/$path');
+//    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+//
+//    return file;
+//  }
 
 
   @override
@@ -65,23 +60,111 @@ class _StampPageState extends State<Stamp> {
       ),
       
       body: new Center(
-        child: Column(
+        child: new Column(
           children: <Widget>[
             Container(
               child: _image == null
-          ? new Text('스탬프로 찍을 이미지를 불러와주세요.', style: TextStyle(fontSize: 35, color: Colors.cyan),)
-          : new Image.file(_image) ,width: 380, height: 500.0
+          ? new Text('\n스탬프로 찍을 이미지를 불러와주세요. \n\n이미지를 선택하지 않았을경우 임시 스탬프 이미지가 넣어집니다.', style: TextStyle(fontSize: 28.8, color: Colors.cyan),)
+          : new Image.file(_image) ,width: 380, height: 480.0,
 
-            )
+
+            ),
+            new Container(height: 5,),
+            new CupertinoButton(onPressed: getImage, child: new Icon(Icons.add_photo_alternate), color: Colors.blueGrey,  ),
+            new Container(height: 3,),
+//            new Text('예제 스탬프'),
+//            new Container(
+//
+//              margin: EdgeInsets.symmetric(horizontal: 8, vertical: 24),
+//              height: 150,
+//
+//              child: new ListView(
+//                shrinkWrap: false,
+//                scrollDirection: Axis.horizontal,
+//                children: <Widget>[
+//                  CupertinoButton(
+//                    onPressed: _stamp1,
+//                    child: new Image.asset('assets/images/py.png'),
+//                    minSize: 0,
+//                    color: Colors.white,
+//
+//                  ),
+//                  MaterialButton(
+//                    child: new Image.asset('assets/images/goodjob.png'),
+//                    onPressed: () {},
+//                    color: Colors.lightGreen,
+//                  ),
+//                  Container(
+//                    width: 100,
+//                    color: Colors.white,
+//                  ),
+//                  Container(
+//                    width: 100,
+//                    color: Colors.orange,
+//                  ),
+//                  Container(
+//                    width: 100,
+//                    color: Colors.lightGreen,
+//                  )
+//                ],
+//              ),
+//            )
           ],
-        )
+
+        ),
+
 
       ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: getImage,
-        tooltip: 'Pick Image',
-        child: new Icon(Icons.photo_size_select_large),
-      ),
+//      floatingActionButton: new FloatingActionButton(
+//        onPressed: getImage,
+//        tooltip: 'Pick Image',
+//        child: new Icon(Icons.photo_size_select_large),
+//      ),
     );
   }
+  void _save() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    final cameras = await availableCameras();  // 디바이스에서 이용가능한 카메라 목록을 받아옵니다.
+    final firstCamera = cameras.first; // 이용가능한 카메라 목록에서 특정 카메라를 얻습니다.
+
+    final na = Navigator.of(context);
+
+    // File pi = image;// await ImagePicker.pickImage(source: ImageSource.gallery);
+
+
+    await na.push(MaterialPageRoute(
+        builder: (context) => Camera(
+          stamp2: _image,
+          camera: firstCamera,
+
+        )));
+
+  }
+  void _stamp1() async {
+
+
+
+    WidgetsFlutterBinding.ensureInitialized();
+
+    final cameras = await availableCameras();  // 디바이스에서 이용가능한 카메라 목록을 받아옵니다.
+    final firstCamera = cameras.first; // 이용가능한 카메라 목록에서 특정 카메라를 얻습니다.
+
+    final na = Navigator.of(context);
+
+    //File a1 = await getImageFileFromAssets('assets/images/py.png');
+    // File pi = image;// await ImagePicker.pickImage(source: ImageSource.gallery);
+
+
+    await na.push(MaterialPageRoute(
+        builder: (context)=> Camera(
+          stamp2: ImagePicker.pickImage(source: ImageSource.gallery),//getImageFileFromAssets('assets/images/py.png'),
+          camera: firstCamera,
+
+        )));
+
+  }
+
 }
+
+

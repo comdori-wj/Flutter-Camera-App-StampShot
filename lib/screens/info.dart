@@ -66,7 +66,7 @@ class info extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text("애플리케이션 버전: 1.7.1ver"),
+                        Text("애플리케이션 버전: 2.0ver"),
                       ],
                     ),
                   ),

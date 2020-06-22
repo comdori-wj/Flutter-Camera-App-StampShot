@@ -1,5 +1,8 @@
 
 
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -78,11 +81,11 @@ var count = 0;
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            FlatButton(child: Text("스탬프 사진 불러오기", style: TextStyle(fontSize: 30, color: Colors.deepOrangeAccent),),onPressed: () => Navigator.push(context,
+            ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
               MaterialPageRoute(builder: (BuildContext context) =>Stamp()),),),
-            ListTile(title: Text("워터마크 위치 지정하기", style: TextStyle(fontSize: 28, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
+            ListTile(title: Text("스탬프 위치 지정하기", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
                 CupertinoPageRoute(builder: (BuildContext context) => setting(),),),),
-            FlatButton(child: Text("만든이 정보보기", style: TextStyle(fontSize: 40, color: Colors.deepOrangeAccent),), onPressed: ()=> Navigator.push(context,
+            FlatButton(child: Text("제작자 정보보기", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),), onPressed: ()=> Navigator.push(context,
               CupertinoPageRoute(builder: (BuildContext context) =>info(),),),)
 
 
@@ -134,9 +137,10 @@ var count = 0;
             // 사진을 촬영하면, 새로운 화면으로 넘어갑니다.
              // final aaa = Image.asset('assets/images/py.jpg', width: 30.0);
               Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Previewscreen(imagePath: path, stamp: widget.stamp2,
-                right: rig.text,
-                height: hei.text),
+              MaterialPageRoute(builder: (context) => Previewscreen(imagePath: path,
+                  stamp: widget.stamp2,
+                  right: rig.text,
+                  height: hei.text),
               ),
             );
           } catch (e) {

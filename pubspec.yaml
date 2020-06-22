@@ -11,7 +11,7 @@ description: A new Flutter application.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.9.0+2
+version: 2.0+2
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -50,6 +50,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/kakao.jpg
+    - assets/images/py.png
+    - assets/images/goodjob.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

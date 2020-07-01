@@ -49,7 +49,7 @@ class info extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("만든이: 하원지",style: TextStyle(fontSize: 30.5, color: Colors.purple),),
+                      Text("만든이: COMDORI",style: TextStyle(fontSize: 30.5, color: Colors.purple),),
                     ],
                   ),
                 ),

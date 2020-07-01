@@ -46,6 +46,10 @@ class CameraState extends State<Camera> {
 
   @override
   void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown
+    ]);
     super.initState();
     // 카메라의 현재 출력물을 보여주기 위해 CameraController를 생성합니다.
     _controller = CameraController(
@@ -61,6 +65,12 @@ class CameraState extends State<Camera> {
 
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp
+    ]);
     // 위젯의 생명주기 종료시 컨트롤러 역시 해제시켜줍니다.
     _controller.dispose();
     super.dispose();

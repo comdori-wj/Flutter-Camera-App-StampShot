@@ -3,6 +3,8 @@ import 'dart:async' show Future;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:StampShot/screens/camera.dart';
 
@@ -17,6 +19,7 @@ import 'package:path_provider/path_provider.dart';
 
 class Stamp extends  StatefulWidget {
   @override
+
   _StampPageState createState() => new _StampPageState();
 
 }
@@ -53,6 +56,8 @@ class _StampPageState extends State<Stamp> {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]); //화면 고정-세로 및 아래
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('★도장 사진 불러오기★'),actions: <Widget>[

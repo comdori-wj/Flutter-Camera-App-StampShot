@@ -14,8 +14,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:ext_storage/ext_storage.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart'; //테스트 해상도
 
 class Previewscreen extends StatelessWidget {
 
@@ -28,9 +29,10 @@ class Previewscreen extends StatelessWidget {
   BuildContext ctx;
   final right;
   final height;
-  double a = -17; // 스탬프 가로 위치
-  double b = 80; // 스탬프 세로 위치
-    Previewscreen({Key key, this.imagePath, @required this.stamp, this.right, this.height} ) : super(key: key);
+
+
+
+    Previewscreen({this.imagePath, @required this.stamp, this.right, this.height} );
 
  // var fileContent = stamp.readAsBytesSync();
 //  var fileContentBase64 = base64.encode(stamp);
@@ -64,10 +66,21 @@ class Previewscreen extends StatelessWidget {
     ctx = context;
 
 
+    double auto_width = MediaQuery.of(context).size.width;
+    double height1 = MediaQuery.of(context).size.height;
+    var pad = MediaQuery.of(context).padding;
+    double height2 = height1-pad.top-pad.bottom;
+    double height3 = height1-pad.bottom+500;
+    double height4 = height1-pad.top-kToolbarHeight-50;
+
+    double a = 50; // 스탬프 가로 위치
+    double b = 100; // 스탬프 세로 위치
+    Offset pos = Offset.zero;
+
     return Scaffold(
       appBar: AppBar(title: Text('사진 미리보기')),
       // 이미지는 디바이스에 파일로 저장됩니다. 이미지를 보여주기 위해 주어진 경로로 `Image.file`을 생성하세요.
-
+      resizeToAvoidBottomPadding: false,
       body: Center(
 
         child: Column(
@@ -77,29 +90,29 @@ class Previewscreen extends StatelessWidget {
               RepaintBoundary(
                   key: global,
                   child: new Stack(children: <Widget>[
-                    Container(width: 370.8,  child: Image.file(File(imagePath)),), //사진
+                    Container(width: auto_width, height: height4,  child: Image.file(File(imagePath)),), //사진
                     Positioned(child:
 
                     stamp == null
                         ? new Image.asset('assets/images/goodjob.png')
-
-
-                        : new Image.file(stamp), width:  65.7,  // Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
-
-
-                      right: right == null //스탬프 가로 위치 좌
-                      ? a
-                      : double.parse(rig.text),
+                        : new Image.file(stamp), width:  63,  // Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
+                      right: right == null //스탬프 가로 위치 좌표
+                      ? null
+                      : double.parse(rig.text),//
                       height: height == null // 스탬프 세로 위치 좌표
-                      ? b
-                      : double.parse(hei.text),
+                      ? null
+                      : double.parse(hei.text),  //double.parse(hei.text) ,q9 기준 1310 1320
 
-
-                    ), //스탬프 위치
+                    ),
+//                    Draggable(child: FlutterLogo(size: 100,), //Container(child: Image.asset('assets/images/py.png'), width: 90,)
+//                      feedback: FlutterLogo(size: 100,),
+//                      childWhenDragging: Container(),
+//
+//                    ),
                   ],)),
               // Container(width: 399.9, child: Image.file(File(imagePath)),  ),
               //CircleAvatar(radius: 50.0, backgroundColor: Colors.<em>red</em>,),
-              Container(height: 20),
+              //Container(height: 0),
               Container(child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -109,7 +122,8 @@ class Previewscreen extends StatelessWidget {
                     RaisedButton(child: Text('다시 사진촬영'), onPressed: () { Navigator.pop(context); //뒤로가기
      }),
                    // RaisedButton(child: Text('공유하기'), onPressed: null)
-                  ]),),
+                  ]),
+                height:50,),
               // Container(width:100,child: RaisedButton(onPressed: () {}, child: Text('back'),))
             ]
         ),

@@ -11,10 +11,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/rendering/box.dart';
 import 'package:flutter/src/rendering/object.dart';
 
-
-
-var rig = TextEditingController(text: '10'); //가로 위치 입력 변수
-var hei = TextEditingController(text: '80'); //세로 위치 입력 변수
+var rig = TextEditingController(text: '50'); //가로 위치 입력 변수
+var hei = TextEditingController(text: '100'); //세로 위치 입력 변수 100
 
 
 
@@ -55,7 +53,7 @@ class setting extends StatelessWidget {
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue, width: 5.0))),
                   textAlign: TextAlign.center, style: TextStyle(fontSize: 18.8, color: Colors.white),keyboardType: TextInputType.number,
                   ),
-                  TextField(controller: hei, decoration: InputDecoration(labelText: '세로 위치 입력(100~1150)', labelStyle: TextStyle(color: Colors.white),
+                  TextField(controller: hei, decoration: InputDecoration(labelText: '세로 위치 입력(100~1320)', labelStyle: TextStyle(color: Colors.white),
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blueAccent, width: 5.0))),
                   textAlign: TextAlign.center, style: TextStyle(fontSize: 18.8, color: Colors.white),keyboardType: TextInputType.number,),
                  Text('스탬프 위치를 나타낼곳을 선택하세요'),
@@ -129,8 +127,8 @@ void location2 (BuildContext context){ //
 
 //오른쪽 상단
 void location3 (BuildContext context){
-  rig = TextEditingController(text: "0");
-  hei = TextEditingController(text: "100");
+  rig = TextEditingController(text: "10");
+  hei = TextEditingController(text: "80");
   Navigator.pop(context);
 }
 
@@ -150,7 +148,7 @@ void location5 (BuildContext context){
 
 //오른쪽
 void location6 (BuildContext context){
-  rig = TextEditingController(text: "0");
+  rig = TextEditingController(text: "50");
   hei = TextEditingController(text: "650");
   Navigator.pop(context);
 }
@@ -171,7 +169,7 @@ void location8 (BuildContext context){
 
 //오른쪽하단
 void location9 (BuildContext context){
-  rig = TextEditingController(text: "0");
-  hei = TextEditingController(text: "1150");
+  rig = TextEditingController(text: "55");  //55
+  hei = TextEditingController(text: "1030"); //1030
   Navigator.pop(context);
 }

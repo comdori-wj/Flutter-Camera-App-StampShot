@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:StampShot/screens/camera.dart';
 
 import 'package:camera/camera.dart';
@@ -14,8 +15,6 @@ import 'package:flutter/src/rendering/object.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'package:path_provider/path_provider.dart';
-
-
 
 class Stamp extends  StatefulWidget {
   @override
@@ -27,6 +26,10 @@ class Stamp extends  StatefulWidget {
 class _StampPageState extends State<Stamp> {
 
   File _image; //이미지 불러오는 변수
+  GlobalKey explan1 = GlobalKey();
+  GlobalKey explan2 = GlobalKey();
+  BuildContext myCon;
+
   Future getImage() async {
     final File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -44,39 +47,71 @@ class _StampPageState extends State<Stamp> {
     }
   }
 
-//  Future<File> getImageFileFromAssets(String path) async {
-//    final byteData = await rootBundle.load('assets/images/py.png');
-//
-//    final file = File('${(await getTemporaryDirectory()).path}/$path');
-//    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-//
-//    return file;
-//  }
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => {  //한번만 보여주고 반복되지 않음
+          ShowCaseWidget.of(myCon).startShowCase([explan1, explan2])
+          });
+    }
 
 
   @override
   Widget build(BuildContext context) {
+    return ShowCaseWidget(
+      builder: Builder(builder: (context) {
+        myCon = context;
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown
+        ]); //화면 고정-세로 및 아래
+        return new Scaffold(
+          appBar: new AppBar(
+            title: new Text('★도장 사진 불러오기★'), actions: <Widget>[
+              Showcase(
+                key: explan1,
+                description: '스탬프 이미지를 선택 후 터치해주세요. \n선택하지 않았을 경우 임시 스탬프 이미지가 넣어집니다.',
+                child: new IconButton(icon: new Icon(Icons.done_outline), onPressed: _save, tooltip: '이미지 선택이 완료되면 터치하세요.',),
+              )
+//            new IconButton(icon: new Icon(Icons.done_outline),
+//              onPressed: _save,
+//              tooltip: "이미지 선택이 완료 되면 터치하세요.",)
+          ], centerTitle: true,
+          ),
 
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]); //화면 고정-세로 및 아래
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('★도장 사진 불러오기★'),actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.save), onPressed: _save )],
-      ),
-      
-      body: new Center(
-        child: new Column(
-          children: <Widget>[
-            Container(
-              child: _image == null
-          ? new Text('\n스탬프로 찍을 이미지를 불러와주세요. \n\n이미지를 선택하지 않았을경우 임시 스탬프 이미지가 넣어집니다.', style: TextStyle(fontSize: 28.8, color: Colors.cyan),)
-          : new Image.file(_image) ,width: 380, height: 480.0,
+          body: new Center(
+            child: new Column(
+              children: <Widget>[
+
+                Container(
+                  child: _image == null
+                      ? new Text(
+                    '\n스탬프로 찍을 이미지를 불러와주세요. \n선택후 왼쪽 상단 체크 표시를 터치하세요.',
+                    style: TextStyle(fontSize: 28.8, color: Colors.cyan),)
+                      : new Image.file(_image), width: 380, height: 480.0,
 
 
-            ),
-            new Container(height: 5,),
-            new CupertinoButton(onPressed: getImage, child: new Icon(Icons.add_photo_alternate), color: Colors.blueGrey,  ),
-            new Container(height: 3,),
+                ),
+                new Container(height: 5,),
+//                new CupertinoButton(onPressed: getImage,
+//                  child: new Icon(Icons.add_photo_alternate),
+//                  color: Colors.blueGrey,),
+//            new CupertinoButton(child: new Icon(Icons.accessibility), onPressed: null),
+                Showcase(
+                  key: explan2,
+                  title: "    이미지 선택 버튼",
+                  description: '\n버튼을 터치하여 불러올 이미지를 넣어주세요.',
+                  shapeBorder: CircleBorder(),
+                  showcaseBackgroundColor: Colors.lightGreen,
+                  child: CupertinoButton(
+                    child: new Icon(Icons.add_photo_alternate),
+                    color: Colors.lightBlue,
+                    onPressed: getImage,
+                  ),
+                ),
+                new Container(height: 3,),
+
+
 //            new Text('예제 스탬프'),
 //            new Container(
 //
@@ -114,19 +149,23 @@ class _StampPageState extends State<Stamp> {
 //                ],
 //              ),
 //            )
-          ],
+              ],
 
-        ),
+            ),
 
 
-      ),
+          ),
 //      floatingActionButton: new FloatingActionButton(
 //        onPressed: getImage,
 //        tooltip: 'Pick Image',
 //        child: new Icon(Icons.photo_size_select_large),
 //      ),
+        );
+      },),
     );
   }
+
+
   void _save() async {
     WidgetsFlutterBinding.ensureInitialized();
 

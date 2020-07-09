@@ -1,6 +1,3 @@
-
-
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -17,6 +14,7 @@ import 'package:camera/camera.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 // 사용자가 주어진 카메라를 사용하여 사진을 찍을 수 있는 화면
 class Camera extends StatefulWidget {
@@ -27,8 +25,6 @@ class Camera extends StatefulWidget {
 
   const Camera({ this.camera, @required this.stamp2});
 
-
-
   @override
   CameraState createState() => CameraState();
 
@@ -36,7 +32,8 @@ class Camera extends StatefulWidget {
 }
 
 class CameraState extends State<Camera> {
-
+  GlobalKey first = GlobalKey();
+  BuildContext mycon;
   CameraController _controller;
   
   Future<void> _initializeControllerFuture;
@@ -61,6 +58,9 @@ class CameraState extends State<Camera> {
 
     // 다음으로 controller를 초기화합니다. 초기화 메서드는 Future를 반환합니다.
     _initializeControllerFuture = _controller.initialize();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    ShowCaseWidget.of(mycon).startShowCase([first]);
+  });
   }
 
   @override
@@ -76,31 +76,57 @@ class CameraState extends State<Camera> {
     super.dispose();
 
   }
-var count = 0;
+
+//var count = 0;
+
   @override
   Widget build(BuildContext context) {
+    mycon = context;
+
     return Scaffold(
+      backgroundColor: Colors.amberAccent,
+
       appBar: AppBar(
+
         backgroundColor: Colors.cyan,
         title: Text("StampShot", style: TextStyle(color: Colors.white),),
         elevation: 0, centerTitle: true, iconTheme: IconThemeData(
-          color: Colors.amber
+          color: Colors.amber,
+
+
       ),
+
         actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.close), onPressed: () => SystemNavigator.pop()),],),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
+          new IconButton(icon: new Icon(Icons.close), onPressed: () => SystemNavigator.pop()),]
+        ,),
+      drawer: new Drawer(
+
+        child:Container(color: Colors.white70,
+       child: ListView(
+          children:  <Widget>[
+
+            ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize:  30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
               MaterialPageRoute(builder: (BuildContext context) =>Stamp()),),),
             ListTile(title: Text("스탬프 위치 지정하기", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
                 CupertinoPageRoute(builder: (BuildContext context) => setting(),),),),
-            FlatButton(child: Text("제작자 정보보기", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),), onPressed: ()=> Navigator.push(context,
-              CupertinoPageRoute(builder: (BuildContext context) =>info(),),),)
+            FlatButton(child: Text("제작자 정보보기",  style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),), onPressed: ()=> Navigator.push(context,
+              CupertinoPageRoute(builder: (BuildContext context) =>info(),),),),
+            FlatButton(child:  Text("오픈소스 라이선스", style: TextStyle(fontSize: 28, color: Colors.deepPurpleAccent),),  onPressed: () {}),
+
+//            Showcase(key: first,
+//              title: 'Menu',
+//              description: '클릭해보세요.',
+//              child: FloatingActionButton(
+//                onPressed: () {
+//                  print("showcase testing..");
+//                },
+//              ),
+//            ),
 
 
-          ],
+],
 
+        ),
         ),
       ),
       // 카메라 프리뷰를 보여주기 전에 컨트롤러 초기화를 기다려야 합니다. 컨트롤러 초기화가
@@ -119,6 +145,7 @@ var count = 0;
         },
       ),
       floatingActionButton: CupertinoButton(
+
         child: Icon(Icons.camera_alt),
         color: Colors.brown,
         // onPressed 콜백을 제공합니다.
@@ -159,7 +186,9 @@ var count = 0;
           }
         },
       ),
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat, //플릇버튼의 위치를 지정
     );
   }
+
 }

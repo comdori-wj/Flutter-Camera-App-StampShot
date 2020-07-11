@@ -7,9 +7,10 @@ import 'package:flutter/services.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:StampShot/screens/camera.dart';
-
 import 'package:camera/camera.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:StampShot/screens/camera.dart';
 import 'package:flutter/src/rendering/object.dart';
 
 import 'package:flutter/services.dart' show rootBundle;
@@ -17,8 +18,8 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 
 class Stamp extends  StatefulWidget {
+  static const PREFERENCES_IS_FIRST_LAUNCH_STRING = "PREFERENCES_IS_FIRST_LAUNCH_STRING";
   @override
-
   _StampPageState createState() => new _StampPageState();
 
 }
@@ -50,10 +51,16 @@ class _StampPageState extends State<Stamp> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => {  //한번만 보여주고 반복되지 않음
-          ShowCaseWidget.of(myCon).startShowCase([explan1, explan2])
-          });
+    WidgetsBinding.instance.addPostFrameCallback((_) =>
+    { //한번만 보여주고 반복되지 않음
+      _explan().then((result) {
+        if (result)
+          ShowCaseWidget.of(myCon).startShowCase([explan1, explan2]);
+      })
+    });
     }
+
+
 
 
   @override
@@ -165,6 +172,13 @@ class _StampPageState extends State<Stamp> {
     );
   }
 
+  Future<bool> _explan() async{
+    final  sharedPreferences = await SharedPreferences.getInstance();
+    bool explan = sharedPreferences.getBool(Stamp.PREFERENCES_IS_FIRST_LAUNCH_STRING) ?? true ;
+    if(explan)
+      sharedPreferences.setBool(Stamp.PREFERENCES_IS_FIRST_LAUNCH_STRING, false);
+    return explan;
+  }
 
   void _save() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -207,8 +221,10 @@ class _StampPageState extends State<Stamp> {
 
         )));
 
+
   }
 
 }
+
 
 

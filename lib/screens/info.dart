@@ -1,98 +1,133 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'dart:async';
-import 'dart:ffi';
-import 'dart:io';
-
-import 'package:StampShot/screens/Previewscreen.dart';
-import 'package:StampShot/screens/stamp.dart';
-
 import 'package:flutter/services.dart';
+import 'package:package_info/package_info.dart';
 
-class info extends StatelessWidget {
+
+class info extends StatefulWidget {
+  @override
+  infoState createState() => new infoState();
+  }
+
+class infoState extends State<info> {
+  infoState({Key key, this.stamp});
   String stamp;
+  String appName = "";
+  String appID = "";
+  String version = "";
 
-  info({Key key, this.stamp}) : super(key: key);
+  @override
+  void initState() {
+    super.initState();
+    getappinfo();
+  }
+
+  void getappinfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      appName = packageInfo.appName;
+      appID = packageInfo.packageName;
+      version = packageInfo.version;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(
-        title: new Text('info'),
-        leading: Padding(
-          padding: EdgeInsets.only(left: 10),
-          child: IconButton(
-            icon: new Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).pop(null),
+          appBar: AppBar(
+            title: new Text('info'),
+            leading: Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: IconButton(
+                icon: new Icon(Icons.arrow_back),
+                onPressed: () => Navigator.of(context).pop(null),
+              ),
+            ),
+            actions: <Widget>[
+              new IconButton(
+                  icon: new Icon(Icons.exit_to_app),
+                  onPressed: () => SystemNavigator.pop())
+            ],
           ),
-        ),
-        actions: <Widget>[
-          new IconButton(
-              icon: new Icon(Icons.exit_to_app),
-              onPressed: () => SystemNavigator.pop())
-        ],
-      ),
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[ Card(
-
-            color: Colors.lime,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          body: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  height: 50,
+                Card(
+                  color: Colors.tealAccent,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text("만든이: COMDORI",style: TextStyle(fontSize: 30.5, color: Colors.purple),),
+                      Container(
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(appName, style: TextStyle(fontSize: 40),),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Card(
+                color: Colors.lime,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("만든이: COMDORI", style: TextStyle(
+                              fontSize: 30.5, color: Colors.purple),),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+                Card(
+                  color: Colors.lightGreen,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text("앱버전: "+version, style: TextStyle(fontSize: 20),),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Card(
+                  color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text("Thank you."),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-            Card(
-              color: Colors.lightGreen,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text("애플리케이션 버전: 2.0ver"),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Card(
-              color: Colors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text("Thank you."),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    backgroundColor: Colors.blueGrey,));
+          backgroundColor: Colors.blueGrey,));
   }
 }

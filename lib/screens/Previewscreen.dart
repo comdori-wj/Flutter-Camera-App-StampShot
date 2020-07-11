@@ -143,7 +143,7 @@ class Previewscreen extends StatelessWidget {
 
     try {
       RenderRepaintBoundary boundary = global.currentContext.findRenderObject();
-      ui.Image image = await boundary.toImage(pixelRatio: 7.0); //캡쳐 화질 설정 pixeratio
+      ui.Image image = await boundary.toImage(pixelRatio: 4.0); //캡쳐 화질 설정 pixeratio
       var directory = await ExtStorage.getExternalStorageDirectory();
       var stampshot = await new Directory('${directory}/StampShot').create(
           recursive: false);

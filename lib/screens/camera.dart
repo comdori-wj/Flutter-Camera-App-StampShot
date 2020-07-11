@@ -32,7 +32,10 @@ class Camera extends StatefulWidget {
 }
 
 class CameraState extends State<Camera> {
-  GlobalKey first = GlobalKey();
+  GlobalKey explan = new GlobalKey();
+  GlobalKey explan2 = new GlobalKey();
+  GlobalKey<ScaffoldState> _drawer = new GlobalKey();
+
   BuildContext mycon;
   CameraController _controller;
   
@@ -59,7 +62,7 @@ class CameraState extends State<Camera> {
     // 다음으로 controller를 초기화합니다. 초기화 메서드는 Future를 반환합니다.
     _initializeControllerFuture = _controller.initialize();
   WidgetsBinding.instance.addPostFrameCallback((_) {
-    ShowCaseWidget.of(mycon).startShowCase([first]);
+    ShowCaseWidget.of(mycon).startShowCase([explan]);
   });
   }
 
@@ -77,58 +80,82 @@ class CameraState extends State<Camera> {
 
   }
 
-//var count = 0;
 
   @override
   Widget build(BuildContext context) {
-    mycon = context;
+    return ShowCaseWidget(
+      builder: Builder(builder: (context) {
+        mycon=context;
 
     return Scaffold(
       backgroundColor: Colors.amberAccent,
-
+      key: _drawer,
       appBar: AppBar(
 
         backgroundColor: Colors.cyan,
         title: Text("StampShot", style: TextStyle(color: Colors.white),),
-        elevation: 0, centerTitle: true, iconTheme: IconThemeData(
-          color: Colors.amber,
-
+        elevation: 0, centerTitle: true, iconTheme: IconThemeData(color: Colors.amber,
 
       ),
+//        leading: IconButton(
+//          icon: new Icon(Icons.settings),
+//            onPressed: () =>
+//              _drawer.currentState.openDrawer(),
+//
+//        ),
 
-        actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.close), onPressed: () => SystemNavigator.pop()),]
-        ,),
-      drawer: new Drawer(
+        leading: Padding(
+          padding: EdgeInsets.only(left: 15),
+          child: Showcase(
+            key: explan,
+            title: "설정메뉴",
+            description: '스탬프 이미지를 변경하거나, 스탬프 위치를 바꿔보세요!',
+            child: IconButton(icon: new Icon(Icons.settings),
+              onPressed: () => _drawer.currentState.openDrawer(),
+            ),
+          )
+            ),
 
-        child:Container(color: Colors.white70,
-       child: ListView(
-          children:  <Widget>[
-
-            ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize:  30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
-              MaterialPageRoute(builder: (BuildContext context) =>Stamp()),),),
-            ListTile(title: Text("스탬프 위치 지정하기", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
-                CupertinoPageRoute(builder: (BuildContext context) => setting(),),),),
-            FlatButton(child: Text("제작자 정보보기",  style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),), onPressed: ()=> Navigator.push(context,
-              CupertinoPageRoute(builder: (BuildContext context) =>info(),),),),
-            FlatButton(child:  Text("오픈소스 라이선스", style: TextStyle(fontSize: 28, color: Colors.deepPurpleAccent),),  onPressed: () {}),
-
-//            Showcase(key: first,
-//              title: 'Menu',
-//              description: '클릭해보세요.',
-//              child: FloatingActionButton(
-//                onPressed: () {
-//                  print("showcase testing..");
-//                },
-//              ),
-//            ),
-
-
-],
-
-        ),
-        ),
+//        actions: <Widget>[
+//          Showcase(
+//            key: explan2,
+//            description: 'exit',
+//            child: IconButton(icon: new Icon(Icons.close), onPressed: () => SystemNavigator.pop()),
+//          ),
+//          ],
       ),
+
+      drawer: Drawer(
+          child:Container(color: Colors.white70,
+            child: ListView(
+
+              children:  <Widget>[
+                ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize:  30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) =>Stamp()),),),
+                ListTile(title: Text("스탬프 위치 지정하기", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
+                  CupertinoPageRoute(builder: (BuildContext context) => setting(),),),),
+                FlatButton(child: Text("제작자 정보보기",  style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),), onPressed: () => Navigator.push(context,
+                  CupertinoPageRoute(builder: (BuildContext context) =>info(),),),),
+                FlatButton(child:  Text("오픈소스 라이선스", style: TextStyle(fontSize: 28, color: Colors.deepPurpleAccent),),  onPressed: () {}),
+              ], ),
+          ),
+
+    ),
+
+//      new Drawer(
+//
+//        child:Container(color: Colors.white70,
+//       child: ListView(
+//          children:  <Widget>[
+//
+//            ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize:  30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
+//              MaterialPageRoute(builder: (BuildContext context) =>Stamp()),),),
+//            ListTile(title: Text("스탬프 위치 지정하기", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
+//                CupertinoPageRoute(builder: (BuildContext context) => setting(),),),),
+//            FlatButton(child: Text("제작자 정보보기",  style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),), onPressed: ()=> Navigator.push(context,
+//              CupertinoPageRoute(builder: (BuildContext context) =>info(),),),),
+//            FlatButton(child:  Text("오픈소스 라이선스", style: TextStyle(fontSize: 28, color: Colors.deepPurpleAccent),),  onPressed: () {}),
+
       // 카메라 프리뷰를 보여주기 전에 컨트롤러 초기화를 기다려야 합니다. 컨트롤러 초기화가
       // 완료될 때까지 FutureBuilder를 사용하여 로딩 스피너를 보여주세요.
       body: FutureBuilder<void>(
@@ -150,8 +177,7 @@ class CameraState extends State<Camera> {
         color: Colors.brown,
         // onPressed 콜백을 제공합니다.
         onPressed: () async {
-          // try / catch 블럭에서 사진을 촬영합니다. 만약 뭔가 잘못된다면 에러에
-          // 대응할 수 있습니다.
+          // try / catch 블럭에서 사진을 촬영합니다. 만약 뭔가 잘못된다면 에러에 대응할 수 있습니다.
           try {
             // 카메라 초기화가 완료됐는지 확인합니다.
             await _initializeControllerFuture;
@@ -189,6 +215,9 @@ class CameraState extends State<Camera> {
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat, //플릇버튼의 위치를 지정
     );
+      })
+    );
+
   }
 
 }

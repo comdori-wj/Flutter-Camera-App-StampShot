@@ -36,7 +36,7 @@ class setting extends StatelessWidget {
         ),
         body: GridView.count(
           primary: false,
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(10),
           crossAxisCount: 1,
           mainAxisSpacing: 20,
 
@@ -47,15 +47,15 @@ class setting extends StatelessWidget {
             child: Container(width: 00, height: 00,
               child:Column(
                 children: <Widget>[
-                  Text('스탬프 위치 지정\n(입력하거나, 아래의 위치 버튼을 터치)', style: TextStyle(fontSize: 23),),
+                  Text('스탬프 위치 지정\n', style: TextStyle(fontSize: 22),),
 
                   TextField(controller: rig, decoration: InputDecoration(labelText: '가로 위치 입력(-17~285)', labelStyle: TextStyle(color: Colors.white),
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue, width: 5.0))),
-                  textAlign: TextAlign.center, style: TextStyle(fontSize: 18.8, color: Colors.white),keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center, style: TextStyle(fontSize: 17, color: Colors.white),keyboardType: TextInputType.number,
                   ),
                   TextField(controller: hei, decoration: InputDecoration(labelText: '세로 위치 입력(100~1320)', labelStyle: TextStyle(color: Colors.white),
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blueAccent, width: 5.0))),
-                  textAlign: TextAlign.center, style: TextStyle(fontSize: 18.8, color: Colors.white),keyboardType: TextInputType.number,),
+                  textAlign: TextAlign.center, style: TextStyle(fontSize: 17, color: Colors.white),keyboardType: TextInputType.number,),
                  Text('스탬프 위치를 나타낼곳을 선택하세요'),
                  // RaisedButton(onPressed: () => { Navigator.of(context).pop(null) }, color: Colors.lightGreenAccent, child: Text('위치 지정 완료'),),
                   Container(
@@ -113,7 +113,7 @@ class setting extends StatelessWidget {
 
 //왼쪽 상단
 void location1 (BuildContext context){ //왼쪽상단
-  rig = TextEditingController(text: "285");
+  rig = TextEditingController(text: "340");
   hei = TextEditingController(text: "100");
   Navigator.pop(context);
 }
@@ -134,7 +134,7 @@ void location3 (BuildContext context){
 
 //왼쪽
 void location4 (BuildContext context){
-  rig = TextEditingController(text: "285");
+  rig = TextEditingController(text: "340");
   hei = TextEditingController(text: "650");
   Navigator.pop(context);
 }
@@ -148,14 +148,14 @@ void location5 (BuildContext context){
 
 //오른쪽
 void location6 (BuildContext context){
-  rig = TextEditingController(text: "50");
+  rig = TextEditingController(text: "10");
   hei = TextEditingController(text: "650");
   Navigator.pop(context);
 }
 
 //왼쪽하단
 void location7 (BuildContext context){
-  rig = TextEditingController(text: "285");
+  rig = TextEditingController(text: "340");
   hei = TextEditingController(text: "1150");
   Navigator.pop(context);
 }
@@ -169,7 +169,7 @@ void location8 (BuildContext context){
 
 //오른쪽하단
 void location9 (BuildContext context){
-  rig = TextEditingController(text: "55");  //55
+  rig = TextEditingController(text: "15");  //55
   hei = TextEditingController(text: "1030"); //1030
   Navigator.pop(context);
 }

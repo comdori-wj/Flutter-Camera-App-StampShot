@@ -7,32 +7,35 @@ import 'dart:typed_data';
 
 import 'package:StampShot/screens/setting.dart';
 
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ext_storage/ext_storage.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart'; //테스트 해상도
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+
+
 
 class Previewscreen extends StatelessWidget {
 
 
+  Previewscreen({this.imagePath, @required this.stamp, this.right, this.height});
+
   //_Mainpage(BuildContext context) => Navigator.pop(null);  //메인페이지로 이동하는 클래스 push-새로운 화면, pop-이전 화면 복귀
+
   final imagePath;
+  final right;
+  final height;
   File stamp;
 
   GlobalKey global = GlobalKey();
   BuildContext ctx;
-  final right;
-  final height;
 
 
 
-    Previewscreen({this.imagePath, @required this.stamp, this.right, this.height} );
 
  // var fileContent = stamp.readAsBytesSync();
 //  var fileContentBase64 = base64.encode(stamp);
@@ -58,7 +61,11 @@ class Previewscreen extends StatelessWidget {
    stamp = _image as String;
   }
 
-}*/
+//}*/
+//  void initState() {
+//    super.initState();
+//
+//  }
 
 
   @override
@@ -89,10 +96,11 @@ class Previewscreen extends StatelessWidget {
               Container(),
               RepaintBoundary(
                   key: global,
-                  child: new Stack(children: <Widget>[
-                    Container(width: auto_width, height: height4,  child: Image.file(File(imagePath)),), //사진
+                  child: new Stack(
+                    alignment: Alignment.topRight,
+                    children: <Widget>[
+                    Container(width: auto_width, height: height4,  child: Image.file(File(imagePath)),padding: EdgeInsets.all(5),), //사진
                     Positioned(child:
-
                     stamp == null
                         ? new Image.asset('assets/images/goodjob.png')
                         : new Image.file(stamp), width:  63,  // Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
@@ -102,6 +110,7 @@ class Previewscreen extends StatelessWidget {
                       height: height == null // 스탬프 세로 위치 좌표
                       ? null
                       : double.parse(hei.text),  //double.parse(hei.text) ,q9 기준 1310 1320
+
 
                     ),
 //                    Draggable(child: FlutterLogo(size: 100,), //Container(child: Image.asset('assets/images/py.png'), width: 90,)
@@ -123,7 +132,9 @@ class Previewscreen extends StatelessWidget {
      }),
                    // RaisedButton(child: Text('공유하기'), onPressed: null)
                   ]),
-                height:50,),
+                height:50,
+               ),
+              Container(child: null),
               // Container(width:100,child: RaisedButton(onPressed: () {}, child: Text('back'),))
             ]
         ),
@@ -152,7 +163,7 @@ class Previewscreen extends StatelessWidget {
       File imgFile = new File('${stampshot.path}/${DateTime.now()}-StampShot.png');
       imgFile.writeAsBytes(pngBytes);
       Fluttertoast.showToast(
-          msg: "사진은 갤러리 및 사진앱에서 확인하거나 \n ${directory}/StampShot서 확인가능 합니다.",
+          msg: "사진은 갤러리 및 사진앱에서 확인하거나 \n ${directory}/StampShot에서 확인가능 합니다.",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.blueAccent,
@@ -162,8 +173,15 @@ class Previewscreen extends StatelessWidget {
 
 
     }
-    catch (e) {
-      print(e);
+    catch(e)  {
+      print("저장실패:"+e);
+      Fluttertoast.showToast(
+          msg: '사진저장을 하지 못하였습니다. \n 저장용량 액세스 권한이 허용 되었는지 확인하세요. \n$e',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      backgroundColor: Colors.deepOrangeAccent,
+      textColor: Colors.white,
+      fontSize: 17);
     }
   }
 }

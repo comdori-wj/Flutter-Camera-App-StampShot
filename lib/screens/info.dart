@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:package_info/package_info.dart';
 
 
+
 class info extends StatefulWidget {
   @override
   infoState createState() => new infoState();
@@ -17,10 +18,12 @@ class infoState extends State<info> {
   String appID = "";
   String version = "";
 
+
   @override
   void initState() {
     super.initState();
     getappinfo();
+
   }
 
   void getappinfo() async {
@@ -121,7 +124,7 @@ class infoState extends State<info> {
                             Text("Thank you."),
                           ],
                         ),
-                      ),
+                      ),Container(child: null),
                     ],
                   ),
                 ),

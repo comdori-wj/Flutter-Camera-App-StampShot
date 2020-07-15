@@ -9,13 +9,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:camera/camera.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_native_admob/flutter_native_admob.dart';
+import 'package:flutter_native_admob/native_admob_controller.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:StampShot/screens/camera.dart';
+
 import 'package:flutter/src/rendering/object.dart';
 
 import 'package:flutter/services.dart' show rootBundle;
 
-import 'package:path_provider/path_provider.dart';
 
 class Stamp extends  StatefulWidget {
   static const PREFERENCES_IS_FIRST_LAUNCH_STRING = "PREFERENCES_IS_FIRST_LAUNCH_STRING";
@@ -27,11 +30,17 @@ class Stamp extends  StatefulWidget {
 class _StampPageState extends State<Stamp> {
 
   File _image; //이미지 불러오는 변수
-  GlobalKey explan1 = GlobalKey();
-  GlobalKey explan2 = GlobalKey();
+  GlobalKey explan1 = GlobalKey(); //앱 사용설명 변수1
+  GlobalKey explan2 = GlobalKey(); //앱 사용설명 변수2
   BuildContext myCon;
 
-  Future getImage() async {
+
+  static const _adUnitID = "ca-app-pub-7875242624363574/6244191252";
+  final _nativeAdController = NativeAdmobController();
+  //final _nativeAdmob = NativeAdmob();
+
+
+    Future getImage() async {
     final File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
       if (image != null){
@@ -51,6 +60,7 @@ class _StampPageState extends State<Stamp> {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) =>
     { //한번만 보여주고 반복되지 않음
       _explan().then((result) {
@@ -58,8 +68,24 @@ class _StampPageState extends State<Stamp> {
           ShowCaseWidget.of(myCon).startShowCase([explan1, explan2]);
       })
     });
+    _checkPermissions(); //사용자 권환 확인하기.
+    //admob.init(); //광고
+
     }
 
+    //권환확인 힘수.
+  _checkPermissions() async{
+      if (Platform.isAndroid){
+        if (await Permission.storage.request().isGranted){
+          await Permission.camera.request().isGranted;
+          await Permission.microphone.request().isGranted;
+        }
+        Map<Permission, PermissionStatus> statuses = await[
+          Permission.storage, Permission.camera, Permission.microphone
+        ].request();
+        print(statuses[Permission.storage]);
+      }
+  }
 
 
 
@@ -74,10 +100,12 @@ class _StampPageState extends State<Stamp> {
         ]); //화면 고정-세로 및 아래
         return new Scaffold(
           appBar: new AppBar(
-            title: new Text('★도장 사진 불러오기★'), actions: <Widget>[
+            title: new Text('★스탬프 사진 불러오기★'),
+            backgroundColor: Colors.green,
+            actions: <Widget>[
               Showcase(
                 key: explan1,
-                description: '스탬프 이미지를 선택 후 터치해주세요. \n선택하지 않았을 경우 임시 스탬프 이미지가 넣어집니다.',
+                description: '\n스탬프 이미지를 선택 후 터치해주세요. \n선택하지 않았을 경우 임시 스탬프 이미지가 넣어집니다.',
                 child: new IconButton(icon: new Icon(Icons.done_outline), onPressed: _save, tooltip: '이미지 선택이 완료되면 터치하세요.',),
               )
 //            new IconButton(icon: new Icon(Icons.done_outline),
@@ -93,13 +121,13 @@ class _StampPageState extends State<Stamp> {
                 Container(
                   child: _image == null
                       ? new Text(
-                    '\n스탬프로 찍을 이미지를 불러와주세요. \n선택후 왼쪽 상단 체크 표시를 터치하세요.',
+                    '스탬프로 찍을 사진을 불러와주세요. \n사진이 넣어졌다면 왼쪽 상단 체크 표시를 터치하세요.',
                     style: TextStyle(fontSize: 28.8, color: Colors.cyan),)
-                      : new Image.file(_image), width: 380, height: 480.0,
+                      : new Image.file(_image), width: 480, height: 400.0,
 
 
                 ),
-                new Container(height: 5,),
+                new Container(height: 3,),
 //                new CupertinoButton(onPressed: getImage,
 //                  child: new Icon(Icons.add_photo_alternate),
 //                  color: Colors.blueGrey,),
@@ -117,6 +145,14 @@ class _StampPageState extends State<Stamp> {
                   ),
                 ),
                 new Container(height: 3,),
+                new Container(child: NativeAdmob(
+                  adUnitID: _adUnitID,
+                  controller: _nativeAdController,
+                  type: NativeAdmobType.banner,
+                ),
+                height: 70,
+                ),
+
 
 
 //            new Text('예제 스탬프'),
@@ -221,9 +257,7 @@ class _StampPageState extends State<Stamp> {
 
         )));
 
-
   }
-
 }
 
 

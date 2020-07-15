@@ -10,6 +10,7 @@ import 'package:StampShot/screens/info.dart';
 import 'package:StampShot/screens/stamp.dart';
 import 'package:StampShot/screens/setting.dart';
 
+
 import 'package:camera/camera.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
@@ -64,6 +65,8 @@ class CameraState extends State<Camera> {
   WidgetsBinding.instance.addPostFrameCallback((_) {
     ShowCaseWidget.of(mycon).startShowCase([explan]);
   });
+
+
   }
 
   @override
@@ -112,6 +115,7 @@ class CameraState extends State<Camera> {
             description: '스탬프 이미지를 변경하거나, 스탬프 위치를 바꿔보세요!',
             child: IconButton(icon: new Icon(Icons.settings),
               onPressed: () => _drawer.currentState.openDrawer(),
+              tooltip: '스탬프 설정 메뉴',
             ),
           )
             ),
@@ -125,6 +129,7 @@ class CameraState extends State<Camera> {
 //          ],
       ),
 
+
       drawer: Drawer(
           child:Container(color: Colors.white70,
             child: ListView(
@@ -137,10 +142,11 @@ class CameraState extends State<Camera> {
                 FlatButton(child: Text("제작자 정보보기",  style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),), onPressed: () => Navigator.push(context,
                   CupertinoPageRoute(builder: (BuildContext context) =>info(),),),),
                 FlatButton(child:  Text("오픈소스 라이선스", style: TextStyle(fontSize: 28, color: Colors.deepPurpleAccent),),  onPressed: () {}),
-              ], ),
+                ], ),
           ),
 
     ),
+
 
 //      new Drawer(
 //
@@ -158,9 +164,11 @@ class CameraState extends State<Camera> {
 
       // 카메라 프리뷰를 보여주기 전에 컨트롤러 초기화를 기다려야 합니다. 컨트롤러 초기화가
       // 완료될 때까지 FutureBuilder를 사용하여 로딩 스피너를 보여주세요.
+
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
+
           if (snapshot.connectionState == ConnectionState.done) {
 
             // Future가 완료되면, 프리뷰를 보여줍니다.
@@ -169,7 +177,7 @@ class CameraState extends State<Camera> {
             // 그렇지 않다면, 진행 표시기를 보여줍니다.
             return Center(child: CircularProgressIndicator());
           }
-        },
+          },
       ),
       floatingActionButton: CupertinoButton(
 
@@ -193,6 +201,7 @@ class CameraState extends State<Camera> {
             // 사진 촬영을 시도하고 저장되는 경로를 로그로 남깁니다.
             await _controller.takePicture(path);
             print('저장위치는:'+path);
+
            
            // File pickedImage = await ImagePicker.pickImage(source: ImageSource.gallery);
 
@@ -200,7 +209,8 @@ class CameraState extends State<Camera> {
             // 사진을 촬영하면, 새로운 화면으로 넘어갑니다.
              // final aaa = Image.asset('assets/images/py.jpg', width: 30.0);
               Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Previewscreen(imagePath: path,
+              MaterialPageRoute(builder: (context) => Previewscreen(
+                  imagePath: path,
                   stamp: widget.stamp2,
                   right: rig.text,
                   height: hei.text),

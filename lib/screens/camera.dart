@@ -11,11 +11,15 @@ import 'package:StampShot/screens/stamp.dart';
 import 'package:StampShot/screens/setting.dart';
 
 
-import 'package:camera/camera.dart';
+//import 'package:camera/camera.dart';
+import 'package:flutter_better_camera/camera.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:torch_compat/torch_compat.dart';
+import 'package:torch/torch.dart';
+
 
 // 사용자가 주어진 카메라를 사용하여 사진을 찍을 수 있는 화면
 class Camera extends StatefulWidget {
@@ -32,18 +36,18 @@ class Camera extends StatefulWidget {
 
 }
 
-class CameraState extends State<Camera> {
+class CameraState extends State<Camera> with WidgetsBindingObserver {
   GlobalKey explan = new GlobalKey();
   GlobalKey explan2 = new GlobalKey();
   GlobalKey<ScaffoldState> _drawer = new GlobalKey();
 
   BuildContext mycon;
   CameraController _controller;
-  
   Future<void> _initializeControllerFuture;
-
+  FlashMode flashMode = FlashMode.off;
 
   //카메라가 준비되면 이곳으로 신호를 받는다.
+
 
   @override
   void initState() {
@@ -52,13 +56,18 @@ class CameraState extends State<Camera> {
       DeviceOrientation.portraitDown
     ]);
     super.initState();
+
     // 카메라의 현재 출력물을 보여주기 위해 CameraController를 생성합니다.
     _controller = CameraController(
+
       // 이용 가능한 카메라 목록에서 특정 카메라를 가져옵니다.
       widget.camera,
       // 적용할 해상도를 지정합니다.
       ResolutionPreset.ultraHigh, // 카메라 화질 설정 ultraHigh, high, max
+
     );
+
+
 
     // 다음으로 controller를 초기화합니다. 초기화 메서드는 Future를 반환합니다.
     _initializeControllerFuture = _controller.initialize();
@@ -82,6 +91,45 @@ class CameraState extends State<Camera> {
     super.dispose();
 
   }
+  Widget _flashButton() {
+    IconData iconData = Icons.flash_off;
+    Color color = Colors.black;
+    if (flashMode == FlashMode.alwaysFlash) {
+      iconData = Icons.flash_on;
+      color = Colors.blue;
+    } else if (flashMode == FlashMode.autoFlash) {
+      iconData = Icons.flash_auto;
+      color = Colors.red;
+    }
+    return IconButton(
+      icon: Icon(iconData),
+      color: color,
+      onPressed: _controller != null && _controller.value.isInitialized
+          ? _onFlashButtonPressed
+          : null,
+    );
+  }
+
+  Future<void> _onFlashButtonPressed() async {
+    bool hasFlash = false;
+    if (flashMode == FlashMode.off || flashMode == FlashMode.torch) {
+      // Turn on the flash for capture
+      flashMode = FlashMode.alwaysFlash;
+    } else if (flashMode == FlashMode.alwaysFlash) {
+      // Turn on the flash for capture if needed
+      flashMode = FlashMode.autoFlash;
+    } else {
+      // Turn off the flash
+      flashMode = FlashMode.off;
+    }
+    // Apply the new mode
+    await _controller.setFlashMode(flashMode);
+
+    // Change UI State
+    setState(() {});
+  }
+
+
 
 
   @override
@@ -120,14 +168,17 @@ class CameraState extends State<Camera> {
           )
             ),
 
-//        actions: <Widget>[
-//          Showcase(
-//            key: explan2,
-//            description: 'exit',
-//            child: IconButton(icon: new Icon(Icons.close), onPressed: () => SystemNavigator.pop()),
-//          ),
-//          ],
-      ),
+        actions: <Widget>[
+          Showcase(
+            key: explan2,
+            description: 'exit',
+            child: IconButton(icon: new Icon(Icons.flash_on), onPressed: () => _flashButton(),
+
+            ),
+          ),
+          ],
+          ),
+
 
 
       drawer: Drawer(
@@ -135,13 +186,14 @@ class CameraState extends State<Camera> {
             child: ListView(
 
               children:  <Widget>[
-                ListTile(title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize:  30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
+                ListTile(leading: Icon(Icons.add_photo_alternate, color: Colors.limeAccent,), title: Text("스탬프 사진 불러오기", style: TextStyle(fontSize:  24, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (BuildContext context) =>Stamp()),),),
-                ListTile(title: Text("스탬프 위치 지정하기", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
+                ListTile(leading: Icon(Icons.settings_applications, color: Colors.deepPurple,), title: Text("스탬프 사진 설정", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
                   CupertinoPageRoute(builder: (BuildContext context) => setting(),),),),
-                FlatButton(child: Text("제작자 정보보기",  style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),), onPressed: () => Navigator.push(context,
+                ListTile(leading: Icon(Icons.person, color: Colors.blue,), title: Text("제작자 정보보기",  style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),), onTap: () => Navigator.push(context,
                   CupertinoPageRoute(builder: (BuildContext context) =>info(),),),),
-                FlatButton(child:  Text("오픈소스 라이선스", style: TextStyle(fontSize: 28, color: Colors.deepPurpleAccent),),  onPressed: () {}),
+                //FlatButton(child:  Text("오픈소스 라이선스", style: TextStyle(fontSize: 28, color: Colors.deepPurpleAccent),),  onPressed: () {}),
+
                 ], ),
           ),
 
@@ -165,7 +217,8 @@ class CameraState extends State<Camera> {
       // 카메라 프리뷰를 보여주기 전에 컨트롤러 초기화를 기다려야 합니다. 컨트롤러 초기화가
       // 완료될 때까지 FutureBuilder를 사용하여 로딩 스피너를 보여주세요.
 
-      body: FutureBuilder<void>(
+      body:
+      FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
 

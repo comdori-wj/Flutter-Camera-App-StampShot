@@ -36,7 +36,9 @@ dependencies:
   firebase_admob: ^0.9.3+2
   flutter_native_admob: ^2.1.0
   permission_handler: ^5.0.1+1
-
+  torch_compat: ^1.0.2
+  torch: ^0.1.1
+  flutter_better_camera: ^0.6.1
 
 dev_dependencies:
   flutter_test:

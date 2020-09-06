@@ -125,6 +125,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_better_camera:
+    dependency: "direct main"
+    description:
+      name: flutter_better_camera
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -420,6 +427,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.15"
+  torch:
+    dependency: "direct main"
+    description:
+      name: torch
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
+  torch_compat:
+    dependency: "direct main"
+    description:
+      name: torch_compat
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   typed_data:
     dependency: transitive
     description:

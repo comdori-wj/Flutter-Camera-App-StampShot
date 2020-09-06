@@ -10,9 +10,10 @@ import 'package:StampShot/screens/Previewscreen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/rendering/box.dart';
 import 'package:flutter/src/rendering/object.dart';
+import 'package:torch_compat/torch_compat.dart';
 
-var rig = TextEditingController(text: '50'); //가로 위치 입력 변수
-var hei = TextEditingController(text: '100'); //세로 위치 입력 변수 100
+var rig = TextEditingController(text: '10'); //가로 위치 입력 변수
+var hei = TextEditingController(text: '80'); //세로 위치 입력 변수 100
 
 
 
@@ -85,6 +86,7 @@ class setting extends StatelessWidget {
             Container( //스탬프 크기
               width: 100,height: 9999300,
               color: Colors.purple,
+              child: new MaterialButton(onPressed: () => TorchCompat.turnOff(), child: Text('Turn on'),),
             ),
           ],
         )

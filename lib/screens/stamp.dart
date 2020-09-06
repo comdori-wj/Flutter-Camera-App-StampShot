@@ -7,7 +7,10 @@ import 'package:flutter/services.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:camera/camera.dart';
+
+//import 'package:camera/camera.dart';
+import 'package:flutter_better_camera/camera.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_native_admob/flutter_native_admob.dart';
 import 'package:flutter_native_admob/native_admob_controller.dart';
@@ -18,7 +21,6 @@ import 'package:StampShot/screens/camera.dart';
 import 'package:flutter/src/rendering/object.dart';
 
 import 'package:flutter/services.dart' show rootBundle;
-
 
 class Stamp extends  StatefulWidget {
   static const PREFERENCES_IS_FIRST_LAUNCH_STRING = "PREFERENCES_IS_FIRST_LAUNCH_STRING";

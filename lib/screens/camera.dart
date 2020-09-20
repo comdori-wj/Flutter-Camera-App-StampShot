@@ -266,7 +266,8 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
                   imagePath: path,
                   stamp: widget.stamp2,
                   right: rig.text,
-                  height: hei.text),
+                  height: hei.text,
+                  size: size1,),
               ),
             );
           } catch (e) {

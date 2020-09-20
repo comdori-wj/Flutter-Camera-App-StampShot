@@ -10,15 +10,20 @@ import 'package:StampShot/screens/Previewscreen.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/rendering/box.dart';
 import 'package:flutter/src/rendering/object.dart';
-import 'package:torch_compat/torch_compat.dart';
+//import 'package:torch_compat/torch_compat.dart';
 
 var rig = TextEditingController(text: '10'); //가로 위치 입력 변수
 var hei = TextEditingController(text: '80'); //세로 위치 입력 변수 100
+var size = TextEditingController(text: '80'); //스탬프 크기 입력 변수
+double size1 = 50.0;
 
 
+class setting extends StatefulWidget {
+@override
+  settingState createState() => new settingState();
+}
 
-class setting extends StatelessWidget {
-
+class settingState extends State<setting>{
 
   @override
   Widget build(BuildContext context) {
@@ -85,15 +90,37 @@ class setting extends StatelessWidget {
             ),
             Container( //스탬프 크기
               width: 100,height: 9999300,
-              color: Colors.purple,
-              child: new MaterialButton(onPressed: () => TorchCompat.turnOff(), child: Text('Turn on'),),
+              color: Colors.teal,
+              child: Column(
+                children: <Widget>[
+                  Text('스탬프 크기 조절', style: TextStyle(fontSize: 22)),
+                  TextField(decoration: InputDecoration(labelText: '스탬크 크기를 입력하세요(1~80)', labelStyle: TextStyle(color: Colors.deepPurple),
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.yellow, width: 5.0))), keyboardType: TextInputType.number, textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 21, color: Colors.redAccent), controller: size),
+                  Text('\n 슬라이드를 이용하여 크기를 조절하세요.'),
+                  Slider(
+                    value: size1,
+                    min: 0,
+                    max: 80,
+                    divisions: 80,
+                    activeColor: Colors.orangeAccent,
+                    inactiveColor: Colors.white,
+                    label: '현재 크기는: '+size1.round().toString(),
+                    onChanged: (double siz){
+                      setState(() {
+                        size1 = siz;
+                        //size1=siz.roundToDouble();
+                        print(size1);
+                      });
+                    },
+                  )
+                ],
+              ),
             ),
           ],
         )
-
     ),
     );
-
   }
 }
 

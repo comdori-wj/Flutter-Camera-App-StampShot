@@ -22,13 +22,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class Previewscreen extends StatelessWidget {
 
 
-  Previewscreen({this.imagePath, @required this.stamp, this.right, this.height});
+  Previewscreen({this.imagePath, @required this.stamp, this.right, this.height, this.size});
 
   //_Mainpage(BuildContext context) => Navigator.pop(null);  //메인페이지로 이동하는 클래스 push-새로운 화면, pop-이전 화면 복귀
 
   final imagePath;
   final right;
   final height;
+  final size; //스탬프 이미지 크기
   File stamp;
 
   GlobalKey global = GlobalKey();
@@ -48,7 +49,9 @@ class Previewscreen extends StatelessWidget {
 
     double a = 50; // 스탬프 가로 위치
     double b = 100; // 스탬프 세로 위치
-    Offset pos = Offset.zero;
+    Offset offset = Offset.zero;
+
+
 
     return Scaffold(
       appBar: AppBar(title: Text('사진 미리보기')),
@@ -70,7 +73,7 @@ class Previewscreen extends StatelessWidget {
                         child: stamp == null
                           ? new Image.asset('assets/images/goodjob.png')
                           : new Image.file(stamp),  // Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
-                        width:  63,
+                        width:  size1, //max size 80  double.parse(size)
                         left: null,
                         right: right == null //스탬프 가로 위치 좌표
                             ? null
@@ -80,11 +83,18 @@ class Previewscreen extends StatelessWidget {
                             : double.parse(hei.text),  //double.parse(hei.text) ,q9 기준 1310 1320
 
                       ),
-                   Draggable(child: FlutterLogo(size: 100,), //Container(child: Image.asset('assets/images/py.png'), width: 90,)
-                     feedback: FlutterLogo(size: 100,),
-                     childWhenDragging: Container(),
 
-                   ),
+        //            Draggable(child: FlutterLogo(size: 100,), //Container(child: Image.asset('assets/images/py.png'), width: 90,)
+        //              feedback: FlutterLogo(size: 100,),
+        //              childWhenDragging: Container(),
+        //   onDragEnd: (details) {
+        //    (() {
+        // final adjustment = MediaQuery.of(context).size.height ;
+        // offset = Offset(details.offset.dx, details.offset.dy - adjustment);
+        //     });
+        //            }
+        //
+        //            ),
                     ],)),
               // Container(width: 399.9, child: Image.file(File(imagePath)),  ),
               //CircleAvatar(radius: 50.0, backgroundColor: Colors.<em>red</em>,),

@@ -69,7 +69,7 @@ class Previewscreen extends StatelessWidget {
                     alignment: Alignment.topRight,
                     children: <Widget>[
                       Container(width: auto_width, height: height4,  child: Image.file(File(imagePath)),padding: EdgeInsets.all(3),), //사진
-                      Positioned(
+                      Positioned(/* Positioned */
                         child: stamp == null
                           ? new Image.asset('assets/images/goodjob.png')
                           : new Image.file(stamp),  // Positioned(child: Image.asset('assets/images/kakao.jpg', width: 100),
@@ -84,9 +84,23 @@ class Previewscreen extends StatelessWidget {
 
                       ),
 
-        //            Draggable(child: FlutterLogo(size: 100,), //Container(child: Image.asset('assets/images/py.png'), width: 90,)
-        //              feedback: FlutterLogo(size: 100,),
+        //            Draggable(child:
+        //                Container(child:
+        //                stamp == null
+        //                ? new Image.asset('assets/images/goodjob.png')
+        //                : new Image.file(stamp),
+        //                width: 50,
+        //
+        //                height: double.parse(hei.text),), //Container(child: Image.asset('assets/images/py.png'), width: 90,)
+        //              feedback:Positioned(child:
+        //              stamp == null
+        //                  ? new Image.asset('assets/images/goodjob.png')
+        //                  : new Image.file(stamp),
+        //              width: 50,
+        //              right: double.parse(rig.text),
+        //              height: double.parse(hei.text),),
         //              childWhenDragging: Container(),
+        //
         //   onDragEnd: (details) {
         //    (() {
         // final adjustment = MediaQuery.of(context).size.height ;
@@ -94,7 +108,8 @@ class Previewscreen extends StatelessWidget {
         //     });
         //            }
         //
-        //            ),
+        //            ),//요기까지
+
                     ],)),
               // Container(width: 399.9, child: Image.file(File(imagePath)),  ),
               //CircleAvatar(radius: 50.0, backgroundColor: Colors.<em>red</em>,),

@@ -18,6 +18,7 @@ var size = TextEditingController(text: '80'); //스탬프 크기 입력 변수
 double size1 = 50.0;
 
 
+
 class setting extends StatefulWidget {
 @override
   settingState createState() => new settingState();
@@ -53,7 +54,7 @@ class settingState extends State<setting>{
             child: Container(width: 00, height: 00,
               child:Column(
                 children: <Widget>[
-                  Text('스탬프 위치 지정\n', style: TextStyle(fontSize: 22),),
+                  Text('스탬프 위치 지정\n', style: TextStyle(fontSize: 30),),
 
                   TextField(controller: rig, decoration: InputDecoration(labelText: '가로 위치 입력(-17~285)', labelStyle: TextStyle(color: Colors.white),
                       enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue, width: 5.0))),
@@ -93,15 +94,13 @@ class settingState extends State<setting>{
               color: Colors.teal,
               child: Column(
                 children: <Widget>[
-                  Text('스탬프 크기 조절', style: TextStyle(fontSize: 22)),
-                  TextField(decoration: InputDecoration(labelText: '스탬크 크기를 입력하세요(1~80)', labelStyle: TextStyle(color: Colors.deepPurple),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.yellow, width: 5.0))), keyboardType: TextInputType.number, textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 21, color: Colors.redAccent), controller: size),
-                  Text('\n 슬라이드를 이용하여 크기를 조절하세요.'),
+                  Text('스탬프 크기 조절', style: TextStyle(fontSize: 30)),
+                  Text(' 슬라이드를 이용하여 크기를 조절하세요.\n', style: TextStyle(fontSize: 20),),
+                  Container(child: new Image.asset('assets/images/stampsize.png'),),
                   Slider(
                     value: size1,
                     min: 0,
-                    max: 80,
+                    max: 100,
                     divisions: 80,
                     activeColor: Colors.orangeAccent,
                     inactiveColor: Colors.white,
@@ -110,10 +109,12 @@ class settingState extends State<setting>{
                       setState(() {
                         size1 = siz;
                         //size1=siz.roundToDouble();
-                        print(size1);
+                        print("현재사이즈 "+siz.toString());
                       });
                     },
-                  )
+                  ),
+                  Text('현재 스탬프 크기는 ['+size1.round().toString()+'] 입니다.', style: TextStyle(fontSize: 20),),
+
                 ],
               ),
             ),
@@ -142,14 +143,14 @@ class settingState extends State<setting>{
 
 //왼쪽 상단
 void location1 (BuildContext context){ //왼쪽상단
-  rig = TextEditingController(text: "340");
+  rig = TextEditingController(text: "300");
   hei = TextEditingController(text: "100");
   Navigator.pop(context);
 }
 
 //중앙 상단
 void location2 (BuildContext context){ //
-  rig = TextEditingController(text: "125");
+  rig = TextEditingController(text: "155");
   hei = TextEditingController(text: "100");
   Navigator.pop(context);
 }
@@ -163,14 +164,14 @@ void location3 (BuildContext context){
 
 //왼쪽
 void location4 (BuildContext context){
-  rig = TextEditingController(text: "340");
+  rig = TextEditingController(text: "300");
   hei = TextEditingController(text: "650");
   Navigator.pop(context);
 }
 
 //중앙
 void location5 (BuildContext context){
-  rig = TextEditingController(text: "125");
+  rig = TextEditingController(text: "155");
   hei = TextEditingController(text: "650");
   Navigator.pop(context);
 }
@@ -184,21 +185,21 @@ void location6 (BuildContext context){
 
 //왼쪽하단
 void location7 (BuildContext context){
-  rig = TextEditingController(text: "340");
+  rig = TextEditingController(text: "300");
   hei = TextEditingController(text: "1150");
   Navigator.pop(context);
 }
 
 //중앙하단
 void location8 (BuildContext context){
-  rig = TextEditingController(text: "125");
-  hei = TextEditingController(text: "1150");
+  rig = TextEditingController(text: "155");
+  hei = TextEditingController(text: "1300");
   Navigator.pop(context);
 }
 
 //오른쪽하단
 void location9 (BuildContext context){
-  rig = TextEditingController(text: "15");  //55
-  hei = TextEditingController(text: "1030"); //1030
+  rig = TextEditingController(text: "10");  //55
+  hei = TextEditingController(text: "1300"); //1030
   Navigator.pop(context);
 }

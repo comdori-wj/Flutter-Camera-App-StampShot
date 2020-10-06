@@ -143,9 +143,9 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
       key: _drawer,
       appBar: AppBar(
 
-        backgroundColor: Colors.cyan,
-        title: Text("StampShot", style: TextStyle(color: Colors.white),),
-        elevation: 0, centerTitle: true, iconTheme: IconThemeData(color: Colors.amber,
+        backgroundColor: Colors.lightGreen,
+        title: Text("StampShot", style: TextStyle(color: Colors.black),),
+        elevation: 0, centerTitle: true, iconTheme: IconThemeData(color: Colors.blue,
 
       ),
 //        leading: IconButton(
@@ -190,7 +190,7 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
                   MaterialPageRoute(builder: (BuildContext context) =>Stamp()),),),
                 ListTile(leading: Icon(Icons.settings_applications, color: Colors.deepPurple,), title: Text("스탬프 사진 설정", style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),),onTap: () => Navigator.push(context,
                   CupertinoPageRoute(builder: (BuildContext context) => setting(),),),),
-                ListTile(leading: Icon(Icons.person, color: Colors.blue,), title: Text("제작자 정보보기",  style: TextStyle(fontSize: 30.9, color: Colors.deepOrangeAccent),), onTap: () => Navigator.push(context,
+                ListTile(leading: Icon(Icons.info_outline, color: Colors.blue,), title: Text("제작자 및  정보보기",  style: TextStyle(fontSize: 25.9, color: Colors.deepOrangeAccent),), onTap: () => Navigator.push(context,
                   CupertinoPageRoute(builder: (BuildContext context) =>info(),),),),
                 //FlatButton(child:  Text("오픈소스 라이선스", style: TextStyle(fontSize: 28, color: Colors.deepPurpleAccent),),  onPressed: () {}),
 

@@ -8,8 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:showcaseview/showcaseview.dart';
 
-//import 'package:camera/camera.dart';
-import 'package:flutter_better_camera/camera.dart';
+import 'package:camera/camera.dart';
+//import 'package:flutter_better_camera/camera.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_native_admob/flutter_native_admob.dart';
@@ -123,8 +123,8 @@ class _StampPageState extends State<Stamp> {
                 Container(
                   child: _image == null
                       ? new Text(
-                    '스탬프로 찍을 사진을 불러와주세요. \n사진이 넣어졌다면 왼쪽 상단 체크 표시를 터치하세요.',
-                    style: TextStyle(fontSize: 28.8, color: Colors.cyan),)
+                    '\n스탬프로 찍을 사진을 불러와주세요. \n사진이 넣어졌다면 왼쪽 상단 체크 표시를 터치하세요.',
+                    style: TextStyle(fontSize: 27, color: Colors.cyan),)
                       : new Image.file(_image), width: 480, height: 400.0,
 
 

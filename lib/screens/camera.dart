@@ -11,8 +11,8 @@ import 'package:StampShot/screens/stamp.dart';
 import 'package:StampShot/screens/setting.dart';
 
 
-//import 'package:camera/camera.dart';
-import 'package:flutter_better_camera/camera.dart';
+import 'package:camera/camera.dart';
+//import 'package:flutter_better_camera/camera.dart';
 import 'package:path/path.dart' show join;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
@@ -44,7 +44,7 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
   BuildContext mycon;
   CameraController _controller;
   Future<void> _initializeControllerFuture;
-  FlashMode flashMode = FlashMode.off;
+  //FlashMode flashMode = FlashMode.off;
 
   //카메라가 준비되면 이곳으로 신호를 받는다.
 
@@ -91,45 +91,43 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
     super.dispose();
 
   }
-  Widget _flashButton() {
-    IconData iconData = Icons.flash_off;
-    Color color = Colors.black;
-    if (flashMode == FlashMode.alwaysFlash) {
-      iconData = Icons.flash_on;
-      color = Colors.blue;
-    } else if (flashMode == FlashMode.autoFlash) {
-      iconData = Icons.flash_auto;
-      color = Colors.red;
-    }
-    return IconButton(
-      icon: Icon(iconData),
-      color: color,
-      onPressed: _controller != null && _controller.value.isInitialized
-          ? _onFlashButtonPressed
-          : null,
-    );
-  }
+  // Widget _flashButton() {
+  //   IconData iconData = Icons.flash_off;
+  //   Color color = Colors.black;
+  //   if (flashMode == FlashMode.alwaysFlash) {
+  //     iconData = Icons.flash_on;
+  //     color = Colors.blue;
+  //   } else if (flashMode == FlashMode.autoFlash) {
+  //     iconData = Icons.flash_auto;
+  //     color = Colors.red;
+  //   }
+  //   return IconButton(
+  //     icon: Icon(iconData),
+  //     color: color,
+  //     onPressed: _controller != null && _controller.value.isInitialized
+  //         ? _onFlashButtonPressed
+  //         : null,
+  //   );
+  // }
 
-  Future<void> _onFlashButtonPressed() async {
-    bool hasFlash = false;
-    if (flashMode == FlashMode.off || flashMode == FlashMode.torch) {
-      // Turn on the flash for capture
-      flashMode = FlashMode.alwaysFlash;
-    } else if (flashMode == FlashMode.alwaysFlash) {
-      // Turn on the flash for capture if needed
-      flashMode = FlashMode.autoFlash;
-    } else {
-      // Turn off the flash
-      flashMode = FlashMode.off;
-    }
-    // Apply the new mode
-    await _controller.setFlashMode(flashMode);
-
-    // Change UI State
-    setState(() {});
-  }
-
-
+  // Future<void> _onFlashButtonPressed() async {
+  //   bool hasFlash = false;
+  //   if (flashMode == FlashMode.off || flashMode == FlashMode.torch) {
+  //     // Turn on the flash for capture
+  //     flashMode = FlashMode.alwaysFlash;
+  //   } else if (flashMode == FlashMode.alwaysFlash) {
+  //     // Turn on the flash for capture if needed
+  //     flashMode = FlashMode.autoFlash;
+  //   } else {
+  //     // Turn off the flash
+  //     flashMode = FlashMode.off;
+  //   }
+  //   // Apply the new mode
+  //   await _controller.setFlashMode(flashMode);
+  //
+  //   // Change UI State
+  //   setState(() {});
+  // }
 
 
   @override
@@ -148,12 +146,6 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
         elevation: 0, centerTitle: true, iconTheme: IconThemeData(color: Colors.blue,
 
       ),
-//        leading: IconButton(
-//          icon: new Icon(Icons.settings),
-//            onPressed: () =>
-//              _drawer.currentState.openDrawer(),
-//
-//        ),
 
         leading: Padding(
           padding: EdgeInsets.only(left: 15),
@@ -172,7 +164,7 @@ class CameraState extends State<Camera> with WidgetsBindingObserver {
           Showcase(
             key: explan2,
             description: 'exit',
-            child: IconButton(icon: new Icon(Icons.flash_on), onPressed: () => _flashButton(),
+            child: IconButton(icon: new Icon(Icons.flash_on), onPressed: () => {},
 
             ),
           ),

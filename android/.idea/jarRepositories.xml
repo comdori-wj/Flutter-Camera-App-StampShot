@@ -12,8 +12,8 @@
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="BintrayJCenter9" />
-      <option name="name" value="BintrayJCenter9" />
+      <option name="id" value="BintrayJCenter15" />
+      <option name="name" value="BintrayJCenter15" />
       <option name="url" value="https://jcenter.bintray.com/" />
     </remote-repository>
     <remote-repository>
